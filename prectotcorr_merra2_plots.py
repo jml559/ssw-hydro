@@ -115,16 +115,3 @@ ax2.render()
 
 
 
-
-# before Friday, take ~1 h to do this:
-# refer to stattests file - and paste/modify the code here
-# generate full set of prectotcorr plots
-
-# also ensure that all ERA5 precip data is downloaded (done)
-
-# one more meeting (maybe?) during study period. Anticipate some continuation over the summer, to 
-# maintain project progress and momentum. Ensure offline/remote access is available.
-# Also, spend time to set up a GitHub repository, and how I can backup my code. 
-# ^python files in scripts directory 
-
-# remove/rearrange tropmet files - ensuring they are in the tropmet or BitBucket page

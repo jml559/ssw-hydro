@@ -12,7 +12,7 @@ dates = content[0:26] """
 n_events = 27 # make arbitrary; not a constant # len(dates) ?
 n_lat = 361
 n_lon = 576
-# Note!!! - change this manually until I figure this out
+# Note - change this manually for now
 
 ds_comp = pyg.open("/local1/storage1/jml559/merra2/prectot_composite.nc")
 #ds_comp = pyg.open("/local1/storage1/jml559/merra2/prectot_composite_exc2018.nc") 
@@ -174,43 +174,7 @@ print("CI99_aft:", CI99_aft)  """
 # find a way to index a tuple, if possible; otherwise change to nparray
 # turn into a p-value map, and get stippling 
 
-# pick a fixed longitude, and figure out where duplication is happening
-
-
-
-
-
-
-
-
-
 #CI_bef = st.norm.interval(alpha=0.95, loc=np.mean(mean_anom_r_bef), scale=st.sem(mean_anom_r_bef))
 #print(CI_bef)
 
 
-
-# review code, try to print stuff and run it
-# generate histogram, write code to find 95% CI
-# next steps
-
-
-    #mean_anom_r_bef = # sum(prec_anom_r) / len(prec_anom_r)
-
-    #anom_r_bef[i] = prec_anom_before[r]
-    #anom_r_aft[i] = prec_anom_after[r]
-     
-    # now have two samples.
-    # "control": n = 27 or 28, mean 0
-    # "resampled": n = 1000, mean mean_anom_r_bef (or aft)
-
-    # return confidence interval? result of stats test?
-    # assume normal populations or not - if not, do a t-test?
-
-
-
-    #for each event (loop)
-    # compute before SSW anomaly and after SSW anomaly at the grid box
-
-# compute composites for a few boxes
-# stippling to show significance on maps 
-# - does pygeode happen to have anything on this?

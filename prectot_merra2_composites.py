@@ -94,26 +94,3 @@ def avg_comp(start_day, end_day): # returns the average composite for a time int
 #prectot_comp_before_ssw = prectot_comp(time=(-40,-39)).nanmean('time','event')
 #prectot_comp_before_ssw = prectot_comp(time=(-40,-39),event='4 Mar 1981').mean('time')
 #pyg.showvar(prectot_comp_before_ssw, ndiv=3, nf=6)
-
-
-# what is the average anomaly before SSW?
-
-#pyg.showvar(prectot_comp)
-
-# compute some averages/subsets before making composite maps
-# day -40 to 0, 0 to 40
-
-
-
-# make a map of the composite
-
-# print(ds.vardict['PRECTOT'])
-
-# To do
-# 1) get composites for the full range (1981-2020) 
-# check ncdump, what I did for the single variable
-
-# 2) make maps of the composites: subset over different days 
-# before SSWs and after SSWs
-# AssertionError: Variable (PRECTOT-PRECTOT_daily_mean) has 4 non-generate axes; must have 1 or 2.
-# Subset variables before plotting - many solutions!

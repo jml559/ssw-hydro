@@ -7,8 +7,6 @@ import matplotlib.pyplot as plt
 patt = "$Y$m$d"
 path = "/local1/storage1/jml559/era5/" # check
 
-# Test comment
-
 year_list = [path+'era5_*%d*.nc' % a for a in range(198,203)]
 # climatology - do 1980 to 2021 (MERRA2)
 # composites - exact same as MERRA2 for now

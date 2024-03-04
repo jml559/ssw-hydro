@@ -15,7 +15,7 @@ def remove_leap(v):
     return pyg.timeutils.removeleapyears(v, omitdoy_leap=[182])
 	# omits the 182nd day of the year during leap years
 
-def compute_climatology(prectot, yrs): 
+""" def compute_climatology(prectot, yrs): 
     if yrs is None:
 	    yrs = (1981, 2020) # yrs is a tuple # climatology base period
 	    fn = path + '%s_climatology.nc' % prectot # make a ppth, fn = filename 
@@ -38,7 +38,24 @@ def compute_climatology(prectot, yrs):
     #return None
     pyg.save(fn, prectot_cs)
 
-#prectot_cs = compute_climatology('PRECTOT', (1980,2021))
+#prectot_cs = compute_climatology('PRECTOT', (1980,2021)) """
+
+def compute_DJF_climatology(prectot, yrs):
+    if yrs is None:
+	    yrs = (1981, 2020) # yrs is a tuple # climatology base period
+	    fn = path + '%s_climatology.nc' % prectot # make a ppth, fn = filename 
+    else:
+	    fn = path + '%s_DJF_climatology_%dto%d.nc' % (prectot, yrs[0], yrs[1])
+        time = 
+
+        for i in range(1,len(yrs[1] - yrs[0])):
+            time_slice = ('1 Dec %d' % yrs[0], '1 Feb %d' % 1+yrs[0]) # loop?
+
+
+
+
+
+
 
 # read ssw_dates.txt
 # get a list of dates, with each date/entry as a string 
@@ -94,3 +111,6 @@ def avg_comp(start_day, end_day): # returns the average composite for a time int
 #prectot_comp_before_ssw = prectot_comp(time=(-40,-39)).nanmean('time','event')
 #prectot_comp_before_ssw = prectot_comp(time=(-40,-39),event='4 Mar 1981').mean('time')
 #pyg.showvar(prectot_comp_before_ssw, ndiv=3, nf=6)
+
+
+### Composite generation for DJF mean only

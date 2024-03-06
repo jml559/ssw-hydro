@@ -44,6 +44,7 @@ def compute_climatology(sst, yrs):
 prectot_cs_2 = compute_climatology('sst', (1980,1999))
 prectot_cs_3 = compute_climatology('sst', (1960,1979))
 prectot_cs_4 = compute_climatology('sst', (1947,1959))  """
+prectot_cs_5 = compute_climatology('sst', (1940,1959))
 
 # read ssw_dates.txt
 # get a list of dates, with each date/entry as a string 
@@ -74,26 +75,22 @@ def compute_composite(v,i1,i2,climo_fn):
    print(vclim)
 
    vcomp = va.composite(l_time = dates, evlen = 140, evoff = 40)
-   tp_anom = vcomp.rename("tp_anom") # REPLACE TP WITH SST
-   tp_anom = tp_anom.transpose("time","event","latitude","longitude")
-   return tp_anom  
+   sst_anom = vcomp.rename("sst_anom") 
+   sst_anom = sst_anom.transpose("time","event","latitude","longitude")
+   return sst_anom  
 
-""" tp_comp_1 = compute_composite(ds.tp,38,53,path+"tp_climatology_2000to2019.nc") 
-fn1 = path + "tp_composite_2000to2019.nc"
-print(fn1)
-pyg.save(fn1, tp_comp_1) """
+""" comp_1 = compute_composite(ds.sst,38,53,path3+"sst_climatology_2000to2019.nc")
+fn1 = path3 + "sst_composite_2000to2019.nc"
+pyg.save(fn1, comp_1)
 
-""" tp_comp_2 = compute_composite(ds.tp,27,38,path+"tp_climatology_1980to1999.nc") 
-fn2 = path + "tp_composite_1980to1999.nc"
-print(fn2)
-pyg.save(fn2, tp_comp_2)
+comp_2 = compute_composite(ds.sst,27,38,path3+"sst_climatology_1980to1999.nc")
+fn2 = path3 + "sst_composite_1980to1999.nc"
+pyg.save(fn2, comp_2)
 
-tp_comp_3 = compute_composite(ds.tp,14,27,path+"tp_climatology_1960to1979.nc") 
-fn3 = path + "tp_composite_1960to1979.nc"
-print(fn3)
-pyg.save(fn3, tp_comp_3) """
+comp_3 = compute_composite(ds.sst,14,27,path3+"sst_climatology_1960to1979.nc")
+fn3 = path3 + "sst_composite_1960to1979.nc"
+pyg.save(fn3, comp_3) 
 
-""" tp_comp_4 = compute_composite(ds.tp,7,14,path+"tp_climatology_1947to1959.nc") 
-fn4 = path + "tp_composite_1947to1959.nc"
-print(fn4)
-pyg.save(fn4, tp_comp_4) """
+comp_4 = compute_composite(ds.sst,1,14,path3+"sst_climatology_1940to1959.nc")
+fn4 = path3 + "sst_composite_1940to1959.nc"
+pyg.save(fn4, comp_4) """

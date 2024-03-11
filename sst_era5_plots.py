@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import random 
 
-path = "/local1/storage1/jml559/era5/"
+# path = "/local1/storage1/jml559/era5/"
 
 # parameters - change as needed
 """ n_events = 13
@@ -111,8 +111,10 @@ pyl.savefig(path2 + fn2) """
 
 
 # Computation of Nino3.4 daily SST time series in composites
-def plot_nino_34_timeseries(file, n_events, title):
-    ds = pyg.open(file)
+path = "/local1/storage1/jml559/jra55/" # can change; does not need to be ERA-5
+
+def plot_nino_34_timeseries(fn1, n_events, title, fn2):
+    ds = pyg.open(fn1)
 
     n_days = 140
     nino_34_ts = np.zeros((n_days, n_events))
@@ -121,20 +123,33 @@ def plot_nino_34_timeseries(file, n_events, title):
 
     time_axis = np.arange(-40, 100)
 
-    fig = plt.figure()
-    ax = fig.add_axes()
+    #fig = plt.figure()
+    #ax = fig.add_axes()
+    pyl.ioff()
+    fig, ax = plt.subplots(figsize=(7, 6))
 
     for i in range(n_events):
-        ax.plot(time_axis, nino_34_ts[:,i], color="0.8", lw=1) # light gray
-    ax.plot(time_axis, nino_34_ts_mean, color="0.5", lw=2) # make bolded, different color?
+        ax.plot(time_axis, nino_34_ts[:,i], color="0.8", lw=1) 
+    ax.plot(time_axis, nino_34_ts_mean, color="0.5", lw=2) 
 
-    ax.set_xlabel('Days before or after SSW')
-    ax.set_ylabel('Daily Nino3.4 SST anomaly')
-    ax.set_title(title) # please make the title a time period (e.g., "1940-1959")
+    ax.set_xlabel('Days before or after SSW', fontsize=16)
+    ax.set_ylabel('Daily Nino3.4 SST anomaly', fontsize=16)
+    ax.set_ylim(-3,3)
+    ax.set_title(title, fontsize=20, fontweight="bold") # please make the title a time period (e.g., "1940-1959")
+    ax.tick_params(axis='both', which='major', labelsize=16)
+    pyl.ion()
+    pyl.savefig(fn2)
 
-    # plt.show? Save the figure!
-    # save the output to a figure
+    #plt.show() #ax.render()
 
-    # please check proper syntax for plotting of multiple time series 
+    #pyg.save(fn2, ax)
+    #pyl.savefig(path + fn2)
 
-# call function above before running
+path2 = "/local1/storage1/jml559/ssw-hydro/"
+""" plot_nino_34_timeseries(path+"sst_composite_1940to1959.nc", 13, "1940-1959", path2+"sst_era5_timeseries_1940to1959.pdf")
+plot_nino_34_timeseries(path+"sst_composite_1960to1979.nc", 13, "1960-1979", path2+"sst_era5_timeseries_1960to1979.pdf")
+plot_nino_34_timeseries(path+"sst_composite_1980to1999.nc", 11, "1980-1999", path2+"sst_era5_timeseries_1980to1999.pdf")
+plot_nino_34_timeseries(path+"sst_composite_2000to2019.nc", 15, "2000-2019", path2+"sst_era5_timeseries_2000to2019.pdf") """
+#plot_nino_34_timeseries(path+"")
+
+

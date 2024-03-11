@@ -8,12 +8,12 @@ import random
 path = "/local1/storage1/jml559/era5/"
 
 # parameters - change as needed
-n_events = 15
+""" n_events = 13
 n_lat = 181
 n_lon = 360
 N_resamples = 10000 
 
-ds_comp = pyg.open(path + "sst_composite_2000to2019.nc") # change name as needed
+ds_comp = pyg.open(path + "sst_composite_1940to1959.nc") # change name as needed
 print(ds_comp)
 
 sst_anom_before = np.zeros((n_events, n_lat, n_lon))
@@ -79,7 +79,7 @@ ax1.render()
 #fn1 = "r2_ERA5_before_SSWs_1947to1959_rel_1947to1959clim.pdf" # change as needed
 #pyl.savefig(fn1) 
 
-fn1 = "sst_ERA5_before_SSWs_2000to2019_rel_2000to2019clim.pdf" # change as needed
+fn1 = "sst_ERA5_before_SSWs_1940to1959_rel_1940to1959clim.pdf" # change as needed
 path2 = "/local1/storage1/jml559/ssw-hydro/regridded-plots/"
 pyl.savefig(path2 + fn1) 
 
@@ -106,6 +106,35 @@ ax2.axes[1].setp(title = "$\degree C$")
 pyl.ion()
 ax2.render()
 
-fn2 = "sst_ERA5_after_SSWs_2000to2019_rel_2000to2019clim.pdf" # change as needed
-pyl.savefig(path2 + fn2)
+fn2 = "sst_ERA5_after_SSWs_1940to1959_rel_1940to1959clim.pdf" # change as needed
+pyl.savefig(path2 + fn2) """
 
+
+# Computation of Nino3.4 daily SST time series in composites
+def plot_nino_34_timeseries(file, n_events, title):
+    ds = pyg.open(file)
+
+    n_days = 140
+    nino_34_ts = np.zeros((n_days, n_events))
+    nino_34_ts = ds.sst_anom(latitude=(-5,5),longitude=(190,240)).nanmean("latitude").nanmean("longitude")[:]
+    nino_34_ts_mean = nino_34_ts.mean(1) # mean across all (n_events) time series 
+
+    time_axis = np.arange(-40, 100)
+
+    fig = plt.figure()
+    ax = fig.add_axes()
+
+    for i in range(n_events):
+        ax.plot(time_axis, nino_34_ts[:,i], color="0.8", lw=1) # light gray
+    ax.plot(time_axis, nino_34_ts_mean, color="0.5", lw=2) # make bolded, different color?
+
+    ax.set_xlabel('Days before or after SSW')
+    ax.set_ylabel('Daily Nino3.4 SST anomaly')
+    ax.set_title(title) # please make the title a time period (e.g., "1940-1959")
+
+    # plt.show? Save the figure!
+    # save the output to a figure
+
+    # please check proper syntax for plotting of multiple time series 
+
+# call function above before running

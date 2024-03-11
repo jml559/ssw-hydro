@@ -44,7 +44,7 @@ def compute_climatology(sst, yrs):
 prectot_cs_2 = compute_climatology('sst', (1980,1999))
 prectot_cs_3 = compute_climatology('sst', (1960,1979))
 prectot_cs_4 = compute_climatology('sst', (1947,1959))  """
-prectot_cs_5 = compute_climatology('sst', (1940,1959))
+#prectot_cs_5 = compute_climatology('sst', (1940,1959))
 
 # read ssw_dates.txt
 # get a list of dates, with each date/entry as a string 
@@ -94,3 +94,24 @@ pyg.save(fn3, comp_3)
 comp_4 = compute_composite(ds.sst,1,14,path3+"sst_climatology_1940to1959.nc")
 fn4 = path3 + "sst_composite_1940to1959.nc"
 pyg.save(fn4, comp_4) """
+
+# calculate also a composite from 1940-2019, but for different base periods
+# probably not what I intended to do - delete?
+""" comp_5 = compute_composite(ds.sst,1,53,path3+"sst_climatology_2000to2019.nc")
+fn5 = path3 + "sst_composite_1940to2019_rel_2000to2019clim.nc"
+pyg.save(fn5, comp_5)
+
+comp_6 = compute_composite(ds.sst,1,53,path3+"sst_climatology_1980to1999.nc")
+fn6 = path3 + "sst_composite_1940to2019_rel_1980to1999clim.nc"
+pyg.save(fn6, comp_6)
+
+comp_7 = compute_composite(ds.sst,1,53,path3+"sst_climatology_1960to1979.nc")
+fn7 = path3 + "sst_composite_1940to2019_rel_1960to1979clim.nc"
+pyg.save(fn7, comp_7)
+
+comp_8 = compute_composite(ds.sst,1,53,path3+"sst_climatology_1940to1959.nc")
+fn8 = path3 + "sst_composite_1940to2019_rel_1940to1959clim.nc"
+pyg.save(fn8, comp_8) """
+
+# decadal SST composites relative to whole period climatology 
+comp_5 = 

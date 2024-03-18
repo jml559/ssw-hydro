@@ -5,7 +5,24 @@ import numpy as np
 import matplotlib.pyplot as plt
 import random 
 
-# path = "/local1/storage1/jml559/era5/"
+path = "/local1/storage1/jml559/era5/"
+
+# climatology differences
+ds_1 = pyg.open(path + "sst_DJFM_climatology_1980to2000.nc")
+ds_2 = pyg.open(path + "sst_DJFM_climatology_1940to2020.nc")
+cm = pyg.clfdict(cdelt=0.4, nf=4, nl=0, ndiv=3, style='div', extend='both') 
+diff = ds_1.SST_CLIM.mean("time") - ds_2.SST_CLIM.mean("time")
+pyl.ioff()
+
+ax = pyg.showvar(diff, **cm) 
+ax.axes[0].setp(title = "ERA-5 DJFM SST climo (1980-2000 minus 1940-2020)")
+ax.axes[1].setp(title = "Anomaly ($^\circ$C)")
+pyl.ion()
+ax.render()
+
+path = "/local1/storage1/jml559/ssw-hydro/"
+fn = "ERA5_1980to2000_minus_1940to2020_SST_climo_DJFM.pdf"
+pyl.savefig(path + fn) 
 
 # parameters - change as needed
 """ n_events = 13
@@ -111,7 +128,7 @@ pyl.savefig(path2 + fn2) """
 
 
 # Computation of Nino3.4 daily SST time series in composites
-path = "/local1/storage1/jml559/jra55/" # can change; does not need to be ERA-5
+""" path = "/local1/storage1/jml559/jra55/" # can change; does not need to be ERA-5
 
 def plot_nino_34_timeseries(fn1, n_events, title, fn2):
     ds = pyg.open(fn1)
@@ -143,9 +160,9 @@ def plot_nino_34_timeseries(fn1, n_events, title, fn2):
     #plt.show() #ax.render()
 
     #pyg.save(fn2, ax)
-    #pyl.savefig(path + fn2)
+    #pyl.savefig(path + fn2) """
 
-path2 = "/local1/storage1/jml559/ssw-hydro/"
+#path2 = "/local1/storage1/jml559/ssw-hydro/"
 """ plot_nino_34_timeseries(path+"sst_composite_1940to1959.nc", 13, "1940-1959", path2+"sst_era5_timeseries_1940to1959.pdf")
 plot_nino_34_timeseries(path+"sst_composite_1960to1979.nc", 13, "1960-1979", path2+"sst_era5_timeseries_1960to1979.pdf")
 plot_nino_34_timeseries(path+"sst_composite_1980to1999.nc", 11, "1980-1999", path2+"sst_era5_timeseries_1980to1999.pdf")

@@ -113,5 +113,57 @@ comp_8 = compute_composite(ds.sst,1,53,path3+"sst_climatology_1940to1959.nc")
 fn8 = path3 + "sst_composite_1940to2019_rel_1940to1959clim.nc"
 pyg.save(fn8, comp_8) """
 
-# decadal SST composites relative to whole period climatology 
-comp_5 = 
+# 20-year SST anomalies relative to whole period climatology, DJFM season 
+def compute_DJFM_climatology(sst, yrs):
+    if yrs is None:
+	    yrs = (1980, 2021) # climatology base period # change as needed
+	    fn = path3 + '%s_climatology.nc' % sst # make a path, fn = filename 
+    else:
+        def sel(var):
+            return var(time=("1 Dec %d" % yrs[0],"1 Apr %d" % yrs[1]),l_month=(12,1,2,3))
+        fn = path3 + '%s_DJFM_climatology_%dto%d.nc' % (sst, yrs[0], yrs[1])
+
+    prectot_r = remove_leap(ds.vardict[sst])  
+    prectot_r = sel(prectot_r)
+    prectot_r = pyg.dailymean(prectot_r).rename(sst)
+
+    #print(prectot_r) 
+    prectot_c = pyg.climatology(prectot_r).rename('SST_CLIM').load()
+    prectot_cs = prectot_c.fft_smooth('time', 4) # retains first 4 harmonic functions 
+    #print(prectot_cs)
+    #return None
+    pyg.save(fn, prectot_cs)
+
+""" sst_1 = compute_DJFM_climatology('sst', (1940,1960))
+sst_2 = compute_DJFM_climatology('sst', (1960,1980))
+sst_3 = compute_DJFM_climatology('sst', (1980,2000))
+sst_4 = compute_DJFM_climatology('sst', (2000,2020)) 
+sst_5 = compute_DJFM_climatology('sst', (1940,2020)) """
+
+# consult era5 comp and plots files for what to do next
+# essentially plotting four anomaly maps
+
+""" def compute_DJF_climatology(tp, yrs): 
+    if yrs is None:
+	    yrs = (1980, 2021) # climatology base period # change as needed
+	    fn = path + '%s_climatology.nc' % tp # make a path, fn = filename 
+    else:
+        def sel(var):
+            return var(time=("1 Dec %d" % yrs[0],"1 Mar %d" % yrs[1]),l_month=(12,1,2)) 
+        fn = path + '%s_DJF_climatology_%dto%d.nc' % (tp, yrs[0], yrs[1])
+	
+    prectot_r = remove_leap(ds.vardict[tp])
+    prectot_r = sel(prectot_r)
+    prectot_r = pyg.dailymean(prectot_r).rename(tp)
+
+    #print(prectot_r) 
+    prectot_c = pyg.climatology(prectot_r).rename('TP_CLIM').load()
+    prectot_cs = prectot_c.fft_smooth('time', 4) # retains first 4 harmonic functions 
+    #print(prectot_cs)
+    #return None
+    pyg.save(fn, prectot_cs)
+
+#prectot_cs = compute_DJF_climatology('tp', (2000,2020))
+prectot_2 = compute_DJF_climatology('tp', (1980,2000))
+prectot_3 = compute_DJF_climatology('tp', (1960,1980))
+prectot_4 = compute_DJF_climatology('tp', (1940,1960)) """

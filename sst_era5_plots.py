@@ -16,9 +16,10 @@ pyl.ioff()
 
 ax = pyg.showvar(diff, **cm) 
 ax.axes[0].setp(title = "ERA-5 DJFM SST climo (1980-2000 minus 1940-2020)")
-ax.axes[1].setp(title = "Anomaly ($^\circ$C)")
+#ax.axes[1].setp(title = "Anomaly ($^\circ$C)")
 pyl.ion()
 ax.render()
+ax.axes[1].ax.set_title("Anomaly \n ($^\degree$C)", y=1.05, fontsize=10) # fontsize=12
 
 path = "/local1/storage1/jml559/ssw-hydro/"
 fn = "ERA5_1980to2000_minus_1940to2020_SST_climo_DJFM.pdf"

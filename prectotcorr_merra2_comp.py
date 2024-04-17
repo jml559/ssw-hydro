@@ -73,7 +73,7 @@ prectot_cs_2 = compute_climatology('PRECTOTCORR', (1980,1999)) """
 # get a list of dates, with each date/entry as a string 
 # lines 2 to 48
 
-def compute_composite(v,i1,i2,climo_fn): 
+""" def compute_composite(v,i1,i2,climo_fn): 
    file = open(path_s+'ssw_dates.txt','r')
    content = file.readlines()
    dates = content[i1:i2] # change as needed
@@ -110,9 +110,34 @@ pyg.save(fn1, prectotcorr_comp_1)
 prectotcorr_comp_2 = compute_composite(ds.PRECTOTCORR,27,38,path+"PRECTOTCORR_climatology_1980to1999.nc")
 fn2 = path + "PRECTOTCORR_composite_1980to1999_rel_1980to1999clim.nc"
 print(fn2)
-pyg.save(fn2, prectotcorr_comp_2)
+pyg.save(fn2, prectotcorr_comp_2) """
 
+def compute_DJFM_climatology(prectotcorr, yrs):
+    if yrs is None:
+	    yrs = (1980, 2021) # climatology base period # change as needed
+	    fn = path + '%s_climatology.nc' % prectotcorr # make a path, fn = filename 
+    else:
+        def sel(var):
+            return var(time=("1 Dec %d" % yrs[0],"1 Apr %d" % yrs[1]),l_month=(12,1,2,3))
+        fn = path + '%s_DJFM_climatology_%dto%d.nc' % (prectotcorr, yrs[0], yrs[1])
 
+    prectot_r = remove_leap(ds.vardict[prectotcorr])  
+    prectot_r = sel(prectot_r)
+    prectot_r = pyg.dailymean(prectot_r).rename(prectotcorr)
+
+    #print(prectot_r) 
+    prectot_c = pyg.climatology(prectot_r).rename('PRECTOTCORR_CLIM').load()
+    prectot_cs = prectot_c.fft_smooth('time', 4) # retains first 4 harmonic functions 
+    print(prectot_cs)
+    print(fn)
+    #return None
+    pyg.save(fn, prectot_cs)
+
+tp_1 = compute_DJFM_climatology('PRECTOTCORR', (1940,1960))
+"""tp_2 = compute_DJFM_climatology('PRECTOTCORR', (1960,1980))
+tp_3 = compute_DJFM_climatology('PRECTOTCORR', (1980,2000))
+tp_4 = compute_DJFM_climatology('PRECTOTCORR', (2000,2020))
+tp_5 = compute_DJFM_climatology('PRECTOTCORR', (1940,2020)) """
 
 
 

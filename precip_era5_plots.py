@@ -22,24 +22,26 @@ pyl.ion()
 ax.render() """
 
 # climatology differences
-""" ds_1 = pyg.open(path + "tp_climatology_1980to2000.nc")
-ds_2 = pyg.open(path + "tp_climatology_2001to2021.nc")
-cm = pyg.clfdict(cdelt=500, ndiv=6, nl=0, nf=5, style='seq', cmap=pyl.cm.BrBG, extend='max')
-diff = 1000*24*365*(ds_2.TP_CLIM.mean("time") - ds_1.TP_CLIM.mean("time"))
+ds_1 = pyg.open(path + "tp_DJFM_climatology_2000to2020.nc")
+ds_2 = pyg.open(path + "tp_DJFM_climatology_1940to2020.nc")
+n_days = 120
+
+cm = pyg.clfdict(cdelt=50, ndiv=6, nl=0, nf=2, style='seq', cmap=pyl.cm.BrBG, extend='both') # both
+diff = 1000*24*n_days*(ds_2.TP_CLIM.mean("time") - ds_1.TP_CLIM.mean("time"))
 pyl.ioff()
 
 ax = pyg.showvar(diff, **cm) 
-ax.axes[0].setp(title = "ERA-5 precip climo (2001-2021 minus 1980-2000)")
+ax.axes[0].setp(title = "ERA-5 DJFM precip climo (2000-2020 minus 1940-2020)")
 ax.axes[1].setp(title = "mm")
 pyl.ion()
-ax.render() """
+ax.render() 
 
-""" path = "/local1/storage1/jml559/ssw-hydro/"
-fn = "ERA5_2000to2021_minus_1980to2000_precip_climo.pdf"
-pyl.savefig(path + fn) """
+path = "/local1/storage1/jml559/ssw-hydro/"
+fn = "ERA5_2000to2020_minus_1940to2020_precip_climo_DJFM.pdf"
+pyl.savefig(path + fn) 
 
 # parameters - change as needed
-n_events = 15
+""" n_events = 15
 n_lat = 180
 n_lon = 360
 N_resamples = 10000 
@@ -57,7 +59,7 @@ mean_anom_r_bef = np.zeros((N_resamples, n_lat, n_lon)) # array of (N_resamples)
 mean_anom_r_aft = np.zeros((N_resamples, n_lat, n_lon))
 
 resample_bef = np.zeros((n_events, n_lat, n_lon)) # resample array to store the 27 values
-resample_aft = np.zeros((n_events, n_lat, n_lon))
+resample_aft = np.zeros((n_events, n_lat, n_lon)) 
 
 # before SSWs 
 for h in range(N_resamples):
@@ -139,5 +141,5 @@ pyl.ion()
 ax2.render()
 
 fn2 = "ps_ERA5_after_SSWs_2000to2019_rel_2000to2019.pdf" # change as needed
-pyl.savefig(path2 + fn2)
+pyl.savefig(path2 + fn2) """
 

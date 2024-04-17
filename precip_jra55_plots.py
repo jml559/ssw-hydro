@@ -20,8 +20,8 @@ pyl.ion()
 ax.render() """
 
 # climatology differences
-""" ds_1 = pyg.open(path + "TPRAT_climatology_1980to2000.nc")
-ds_2 = pyg.open(path + "TPRAT_climatology_2001to2021.nc")
+ds_1 = pyg.open(path + "TPRAT_climatology_1980to2000.nc")
+ds_2 = pyg.open(path + "TPRAT_climatology_1940to2020.nc") # fix
 cm = pyg.clfdict(cdelt=500, ndiv=6, nl=0, nf=5, style='seq', cmap=pyl.cm.BrBG, extend='max')
 diff = 365*(ds_2.TP_CLIM.mean("forecast_time1").mean("time") - ds_1.TP_CLIM.mean("forecast_time1").mean("time"))
 pyl.ioff()
@@ -30,14 +30,14 @@ ax = pyg.showvar(diff, **cm)
 ax.axes[0].setp(title = "JRA-55 precip climo (2001-2021 minus 1980-2000)")
 ax.axes[1].setp(title = "mm")
 pyl.ion()
-ax.render() """
+ax.render() 
 
-""" path = "/local1/storage1/jml559/ssw-hydro/"
+path = "/local1/storage1/jml559/ssw-hydro/"
 fn = "ERA5_2000to2021_minus_1980to2000_precip_climo.pdf"
-pyl.savefig(path + fn) """
+pyl.savefig(path + fn) 
 
 # parameters
-n_events = 15 # adjust as needed
+""" n_events = 15 # adjust as needed
 n_lat = 180
 n_lon = 360
 N_resamples = 10000 
@@ -82,10 +82,10 @@ for i in range(n_lat):
         p_bef_dry[i,j] = (mean_anom_r_bef[:,i,j]>0).sum() / N_resamples
         p_aft_dry[i,j] = (mean_anom_r_aft[:,i,j]>0).sum() / N_resamples
         p_bef_wet[i,j] = (mean_anom_r_bef[:,i,j]<0).sum() / N_resamples
-        p_aft_wet[i,j] = (mean_anom_r_aft[:,i,j]<0).sum() / N_resamples
+        p_aft_wet[i,j] = (mean_anom_r_aft[:,i,j]<0).sum() / N_resamples """
 
 # significance maps before SSWs
-prectot_comp_before_ssw = tp_anom(time=(-40,0)).nanmean('time','event').load() #nanmean('time','event')
+""" prectot_comp_before_ssw = tp_anom(time=(-40,0)).nanmean('time','event').load() #nanmean('time','event')
 sigmask_bef_dry = (1 - 0.5*pyg.Var((tp_anom.Lat,tp_anom.Lon),values=p_bef_dry)) * pyg.sign(prectot_comp_before_ssw)
 sigmask_bef_wet = (1 - 0.5*pyg.Var((tp_anom.Lat,tp_anom.Lon),values=p_bef_wet)) * pyg.sign(prectot_comp_before_ssw)
 #cm = pyg.clfdict(cdelt=12.5, nf=4, nl=0, ndiv=4, style='div', cmap=pyl.cm.BrBG, extend='both') 
@@ -109,7 +109,7 @@ ax1.render()
 
 fn1 = "ps_JRA55_before_SSWs_2000to2019_rel_2000to2019clim.pdf" # change as needed
 path2 = "/local1/storage1/jml559/ssw-hydro/regridded-plots/"
-pyl.savefig(path2 + fn1)
+pyl.savefig(path2 + fn1) """
 
 """ fn2 = "JRA55_before_SSWs_1980to2021_prectot_comp.nc"
 pyg.save(40*prectot_comp_before_ssw, fn2) # save composite to file
@@ -121,7 +121,7 @@ fn4 = "JRA55_before_SSWs_1980to2021_sigmask_bef_wet.nc"
 pyg.save(sigmask_bef_wet, fn4) """ # repeat for after SSWs (and other datasets)
 
 # after SSWs
-prectot_comp_after_ssw = tp_anom(time=(0,61)).nanmean('time','event').load()
+""" prectot_comp_after_ssw = tp_anom(time=(0,61)).nanmean('time','event').load()
 sigmask_aft_dry = (1 - 0.5*pyg.Var((tp_anom.Lat,tp_anom.Lon),values=p_aft_dry)) * pyg.sign(prectot_comp_after_ssw)
 sigmask_aft_wet = (1 - 0.5*pyg.Var((tp_anom.Lat,tp_anom.Lon),values=p_aft_wet)) * pyg.sign(prectot_comp_after_ssw)
 #cm = pyg.clfdict(cdelt=20, nf=4, nl=0, ndiv=4, style='div', cmap=pyl.cm.BrBG, extend='both')
@@ -143,7 +143,7 @@ pyl.ion()
 ax2.render() 
 
 fn2 = "ps_JRA55_after_SSWs_2000to2019_rel_2000to2019clim.pdf" # change as needed
-pyl.savefig(path2 + fn2)
+pyl.savefig(path2 + fn2) """
 
 
 

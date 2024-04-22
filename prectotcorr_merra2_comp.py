@@ -133,11 +133,15 @@ def compute_DJFM_climatology(prectotcorr, yrs):
     #return None
     pyg.save(fn, prectot_cs)
 
-tp_1 = compute_DJFM_climatology('PRECTOTCORR', (1940,1960))
+tp_1 = compute_DJFM_climatology('PRECTOTCORR', (1980,2000))
+tp_2 = compute_DJFM_climatology('PRECTOTCORR', (2000,2020))
+tp_3 = compute_DJFM_climatology('PRECTOTCORR', (1980,2020))
+
+#tp_1 = compute_DJFM_climatology('PRECTOTCORR', (1940,1960))
 """tp_2 = compute_DJFM_climatology('PRECTOTCORR', (1960,1980))
 tp_3 = compute_DJFM_climatology('PRECTOTCORR', (1980,2000))
 tp_4 = compute_DJFM_climatology('PRECTOTCORR', (2000,2020))
 tp_5 = compute_DJFM_climatology('PRECTOTCORR', (1940,2020)) """
 
-
+# only compute MERRA from 1980-2020 onwards
 

@@ -5,7 +5,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import random 
 
-path = "/local1/storage1/jml559/jra55/"
+path = "/local1/storage1/jml559/jra55/tprat/"
 
 year_list = [path+"fcst_*319.%d*_%d*.nc" % (a,a) for a in range(1958,2024)] # (1958,2024)
 ds = pyg.openall(year_list)
@@ -19,11 +19,45 @@ ax.axes[1].setp(title = "mm")
 pyl.ion()
 ax.render() """
 
+""" ds_clim = pyg.open(path + "TPRAT_DJFM_climatology_1960to2020.nc") ###
+ds_clim_avg_3h6h = ds_clim.TP_CLIM.mean("forecast_time1").mean("time")
+cm = pyg.clfdict(cdelt=2, min=0, ndiv=5, nl=1, nf=5, style='seq', cmap=pyl.cm.viridis, extend='max')
+pyl.ioff()
+ax = pyg.showvar(ds_clim_avg_3h6h, **cm)
+ax.axes[0].setp(title = "DJFM daily precip climatology (1980-2021), JRA-55") ###
+# wrong, should be 1960-2020
+pyl.ion()
+ax.render()
+ax.axes[1].ax.set_title("mm/d", y=1.05, fontsize=12)
+
+path = "/local1/storage1/jml559/ssw-hydro/"
+fn = "JRA55_1980to2020_precip_climo_DJFM.pdf" ###
+pyl.savefig(path + fn) """
+
+# climatology plot; polar projection focusing on NH 
+ds_clim = pyg.open(path + "TPRAT_DJFM_climatology_1960to2020.nc") ###
+ds_clim_avg_3h6h = ds_clim.TP_CLIM.mean("forecast_time1").mean("time")
+cm = pyg.clfdict(cdelt=1.5, min=0, ndiv=5, nl=1, nf=5, style='seq', cmap=pyl.cm.viridis, extend='max')
+pyl.ioff()
+map = dict(projection = "NorthPolarStereo")
+ax = pyg.showvar(ds_clim_avg_3h6h, map=map, **cm)
+ax.axes[0].set_extent([0,359,20,90],crs=ccrs.PlateCarree())
+ax.axes[0].setp(title = "DJFM daily precip climatology (1960-2020), JRA-55") ###
+pyl.ion()
+ax.render() 
+ax.axes[1].ax.set_title("mm/d", y=1.05, fontsize=12) 
+
+path = "/local1/storage1/jml559/ssw-hydro/"
+fn = "ps_JRA55_1960to2020_precip_climo_DJFM.pdf" ###
+pyl.savefig(path + fn) 
+
+
+
 # climatology differences
-ds_1 = pyg.open(path + "TPRAT_climatology_1980to2000.nc")
-ds_2 = pyg.open(path + "TPRAT_climatology_1940to2020.nc") # fix
+""" ds_1 = pyg.open(path + "TPRAT_GDS4_SFC_ave3h_DJFM_climatology_1960to1980.nc")
+ds_base = pyg.open(path + "TPRAT_GDS4_SFC_ave3h_DJFM_climatology_1960to1980.nc") # fix
 cm = pyg.clfdict(cdelt=500, ndiv=6, nl=0, nf=5, style='seq', cmap=pyl.cm.BrBG, extend='max')
-diff = 365*(ds_2.TP_CLIM.mean("forecast_time1").mean("time") - ds_1.TP_CLIM.mean("forecast_time1").mean("time"))
+diff = 365*(ds_base.TP_CLIM.mean("forecast_time1").mean("time") - ds_1.TP_CLIM.mean("forecast_time1").mean("time"))
 pyl.ioff()
 
 ax = pyg.showvar(diff, **cm) 
@@ -34,7 +68,7 @@ ax.render()
 
 path = "/local1/storage1/jml559/ssw-hydro/"
 fn = "ERA5_2000to2021_minus_1980to2000_precip_climo.pdf"
-pyl.savefig(path + fn) 
+pyl.savefig(path + fn) """
 
 # parameters
 """ n_events = 15 # adjust as needed

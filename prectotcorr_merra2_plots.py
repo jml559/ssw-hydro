@@ -13,7 +13,7 @@ path = "/local1/storage1/jml559/merra2/"
 ds = pyg.open_multi(year_list, pattern=patt)
 cm = pyg.clfdict(style='seq', min=0, cdelt=0.00005, ndiv=5, nl=1, nf=5, extend="max") """
 
-# climatology plot for PRECTOTCORR
+# climatology plot for PRECTOTCORR; original data in mm/s
 """ ds_clim = pyg.open(path + "PRECTOTCORR_climatology_1980to2021.nc")
 cm = pyg.clfdict(cdelt=500, min=0, ndiv=5, nl=1, nf=5, style='seq', cmap=pyl.cm.BrBG, extend='max')
 pyl.ioff()
@@ -23,11 +23,61 @@ ax.axes[1].setp(title = "mm")
 pyl.ion()
 ax.render() """
 
+""" ds_clim = pyg.open(path + "PRECTOTCORR_DJFM_climatology_1980to2020.nc") ###
+cm = pyg.clfdict(cdelt=2, min=0, ndiv=5, nl=1, nf=5, style='seq', cmap=pyl.cm.viridis, extend='max')
+pyl.ioff()
+ax = pyg.showvar(3600*24*ds_clim.PRECTOTCORR_CLIM.mean("time"), **cm)
+ax.axes[0].setp(title = "DJFM daily precip climatology (1980-2021), MERRA-2") ###
+pyl.ion()
+ax.render()
+ax.axes[1].ax.set_title("mm/d", y=1.05, fontsize=12)
+
+path = "/local1/storage1/jml559/ssw-hydro/"
+fn = "MERRA2_1980to2020_precip_climo_DJFM.pdf" ###
+pyl.savefig(path + fn) """
+
+# climatology plot; polar projection focusing on NH 
+""" ds_clim = pyg.open(path + "PRECTOTCORR_DJFM_climatology_1980to2020.nc") ###
+cm = pyg.clfdict(cdelt=1.5, min=0, ndiv=5, nl=1, nf=5, style='seq', cmap=pyl.cm.viridis, extend='max')
+pyl.ioff()
+map = dict(projection = "NorthPolarStereo")
+ax = pyg.showvar(3600*24*ds_clim.PRECTOTCORR_CLIM.mean("time"), map=map, **cm)
+ax.axes[0].set_extent([0,359,20,90],crs=ccrs.PlateCarree())
+ax.axes[0].setp(title = "DJFM daily precip climatology (1980-2021), MERRA-2") ###
+pyl.ion()
+ax.render() 
+ax.axes[1].ax.set_title("mm/d", y=1.05, fontsize=12) 
+
+path = "/local1/storage1/jml559/ssw-hydro/"
+fn = "ps_MERRA2_1980to2020_precip_climo_DJFM.pdf" ###
+pyl.savefig(path + fn) """
+
+# climatology differences
+""" ds_1 = pyg.open(path + "tp_DJFM_climatology_2000to2020.nc") ###
+ds_base = pyg.open(path + "PRECTOTCORR_DJFM_climatology_1980to2020.nc") # base period
+# need to edit
+n_days = 120
+
+cm = pyg.clfdict(cdelt=50, ndiv=6, nl=0, nf=2, style='seq', cmap=pyl.cm.BrBG, extend='both') # both
+diff = 1000*24*n_days*(ds_1.TP_CLIM.mean("time") - ds_base.TP_CLIM.mean("time"))
+pyl.ioff()
+
+ax = pyg.showvar(diff, **cm) 
+ax.axes[0].setp(title = "ERA-5 DJFM precip climo (2000-2020 minus 1940-2020)") ###
+ax.axes[1].setp(title = "mm")
+pyl.ion()
+ax.render() 
+
+path = "/local1/storage1/jml559/ssw-hydro/"
+fn = "ERA5_2000to2020_minus_1940to2020_precip_climo_DJFM.pdf" ###
+pyl.savefig(path + fn) """
+
+
 # PRECTOT - PRECTOTCORR (bias amount)
 # see precdiff_merra2_plots.py
 
 # parameters
-n_events = 11 # make arbitrary; not a constant # len(dates) ?
+""" n_events = 11 # make arbitrary; not a constant # len(dates) ?
 n_lat = 180
 n_lon = 360
 N_resamples = 10000 
@@ -70,10 +120,10 @@ for i in range(n_lat):
         p_bef_dry[i,j] = (mean_anom_r_bef[:,i,j]>0).sum() / N_resamples
         p_aft_dry[i,j] = (mean_anom_r_aft[:,i,j]>0).sum() / N_resamples
         p_bef_wet[i,j] = (mean_anom_r_bef[:,i,j]<0).sum() / N_resamples
-        p_aft_wet[i,j] = (mean_anom_r_aft[:,i,j]<0).sum() / N_resamples 
+        p_aft_wet[i,j] = (mean_anom_r_aft[:,i,j]<0).sum() / N_resamples """
 
 # significance maps before SSWs
-prectot_comp_before_ssw = ds_comp.prectotcorr_anom(time=(-40,0)).nanmean('time','event').load() #nanmean('time','event')
+""" prectot_comp_before_ssw = ds_comp.prectotcorr_anom(time=(-40,0)).nanmean('time','event').load() #nanmean('time','event')
 sigmask_bef_dry = (1 - 0.5*pyg.Var((ds_comp.lat,ds_comp.lon),values=p_bef_dry)) * pyg.sign(prectot_comp_before_ssw)
 sigmask_bef_wet = (1 - 0.5*pyg.Var((ds_comp.lat,ds_comp.lon),values=p_bef_wet)) * pyg.sign(prectot_comp_before_ssw)
 cm = pyg.clfdict(cdelt=10, nf=4, nl=0, ndiv=3, style='div', cmap=pyl.cm.BrBG, extend='both') 
@@ -125,7 +175,7 @@ pyl.ion()
 ax2.render()
 
 fn2 = "ps_MERRA2_after_SSWs_1980to1999_rel_1980to1999clim.pdf" # change as needed
-pyl.savefig(path2 + fn2) 
+pyl.savefig(path2 + fn2) """
 
 
 

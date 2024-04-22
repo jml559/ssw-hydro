@@ -2,7 +2,7 @@ import pygeode as pyg
 import cartopy.crs as ccrs
 import pylab as pyl; pyl.ion();
 
-path = "/local1/storage1/jml559/jra55/"
+path = "/local1/storage1/jml559/jra55/tprat/"
 path2 = "/local1/storage1/jml559/scripts/"
 
 year_list = [path+"fcst_*319.%d*_%d*.nc" % (a,a) for a in range(1958,2024)] # (1958,2024)
@@ -187,10 +187,11 @@ def compute_DJFM_climatology(tp, yrs):
     pyg.save(fn, prectot_cs)
 
 #tp_1 = compute_DJFM_climatology('TPRAT_GDS4_SFC_ave3h', (1940,1960)) # don't use
-tp_2 = compute_DJFM_climatology('TPRAT_GDS4_SFC_ave3h', (1960,1980))
+""" tp_2 = compute_DJFM_climatology('TPRAT_GDS4_SFC_ave3h', (1960,1980))
 tp_3 = compute_DJFM_climatology('TPRAT_GDS4_SFC_ave3h', (1980,2000))
 tp_4 = compute_DJFM_climatology('TPRAT_GDS4_SFC_ave3h', (2000,2020))
-tp_5 = compute_DJFM_climatology('TPRAT_GDS4_SFC_ave3h', (1940,2020))
+tp_5 = compute_DJFM_climatology('TPRAT_GDS4_SFC_ave3h', (1940,2020)) """
+tp_6 = compute_DJFM_climatology('TPRAT', (1960,2020))
 # rename files
 
 
@@ -201,8 +202,5 @@ tp_5 = compute_DJFM_climatology('TPRAT_GDS4_SFC_ave3h', (1940,2020))
 
 
 
-# after analyzing this, start looking at top-down vs bottom-up SSWs
-# comparisons between reanalyses
-# figures - eventually re-run them and save as PDFs to VS code
-# also re-familiarize with backing up to github
+
 

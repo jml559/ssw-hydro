@@ -53,23 +53,21 @@ fn = "ps_MERRA2_1980to2020_precip_climo_DJFM.pdf" ###
 pyl.savefig(path + fn) """
 
 # climatology differences
-""" ds_1 = pyg.open(path + "tp_DJFM_climatology_2000to2020.nc") ###
+""" ds_1 = pyg.open(path + "PRECTOTCORR_DJFM_climatology_2000to2020.nc") ###
 ds_base = pyg.open(path + "PRECTOTCORR_DJFM_climatology_1980to2020.nc") # base period
-# need to edit
-n_days = 120
 
-cm = pyg.clfdict(cdelt=50, ndiv=6, nl=0, nf=2, style='seq', cmap=pyl.cm.BrBG, extend='both') # both
-diff = 1000*24*n_days*(ds_1.TP_CLIM.mean("time") - ds_base.TP_CLIM.mean("time"))
+cm = pyg.clfdict(cdelt=0.5, ndiv=6, nl=0, nf=2, style='seq', cmap=pyl.cm.BrBG, extend='both') # both
+diff = 3600*24*(ds_1.PRECTOTCORR_CLIM.mean("time") - ds_base.PRECTOTCORR_CLIM.mean("time"))
 pyl.ioff()
 
 ax = pyg.showvar(diff, **cm) 
-ax.axes[0].setp(title = "ERA-5 DJFM precip climo (2000-2020 minus 1940-2020)") ###
-ax.axes[1].setp(title = "mm")
+ax.axes[0].setp(title = "MERRA-2 DJFM precip climo (2000-2020 minus 1980-2020)") ###
 pyl.ion()
 ax.render() 
+ax.axes[1].ax.set_title("mm/d", y=1.05, fontsize=12) 
 
 path = "/local1/storage1/jml559/ssw-hydro/"
-fn = "ERA5_2000to2020_minus_1940to2020_precip_climo_DJFM.pdf" ###
+fn = "MERRA2_2000to2020_minus_1980to2020_precip_climo_DJFM.pdf" ###
 pyl.savefig(path + fn) """
 
 

@@ -73,7 +73,7 @@ prectot_cs_2 = compute_climatology('PRECTOTCORR', (1980,1999)) """
 # get a list of dates, with each date/entry as a string 
 # lines 2 to 48
 
-""" def compute_composite(v,i1,i2,climo_fn): 
+def compute_composite(v,i1,i2,climo_fn): 
    file = open(path_s+'ssw_dates.txt','r')
    content = file.readlines()
    dates = content[i1:i2] # change as needed
@@ -82,8 +82,7 @@ prectot_cs_2 = compute_climatology('PRECTOTCORR', (1980,1999)) """
 
    #yrs = (1980, 2020) # not needed???
    #vc = compute_climatology(v, yrs) # not needed???
-   file2 = pyg.open(climo_fn)  # check file
-   # 'PRECTOTCORR_DJF_climatology_2000to2020.nc'
+   file2 = pyg.open(climo_fn)  
    vclim = pyg.dailymean(file2.PRECTOTCORR_CLIM)
 
    vr = remove_leap(v)
@@ -102,17 +101,17 @@ prectot_cs_2 = compute_climatology('PRECTOTCORR', (1980,1999)) """
    prectotcorr_anom = prectotcorr_anom.transpose("time","event","lat","lon")
    return prectotcorr_anom 
 
-prectotcorr_comp_1 = compute_composite(ds.PRECTOTCORR,38,53,path+"PRECTOTCORR_climatology_2000to2019.nc")
-fn1 = path + "PRECTOTCORR_composite_2000to2019_rel_2000to2019clim.nc"
+prectotcorr_comp_1 = compute_composite(ds.PRECTOTCORR,39,53,path+"PRECTOTCORR_DJFM_climatology_2000to2020.nc") # Dec 2000 - Mar 2020
+fn1 = path + "PRECTOTCORR_DJFM_composite_2000to2020_rel_2000to2020clim.nc" ###
 print(fn1)
 pyg.save(fn1, prectotcorr_comp_1) 
 
-prectotcorr_comp_2 = compute_composite(ds.PRECTOTCORR,27,38,path+"PRECTOTCORR_climatology_1980to1999.nc")
-fn2 = path + "PRECTOTCORR_composite_1980to1999_rel_1980to1999clim.nc"
+prectotcorr_comp_2 = compute_composite(ds.PRECTOTCORR,28,39,path+"PRECTOTCORR_DJFM_climatology_1980to2000.nc") # Dec 1980 - Mar 2000
+fn2 = path + "PRECTOTCORR_DJFM_composite_1980to2000_rel_1980to2000clim.nc" ###
 print(fn2)
-pyg.save(fn2, prectotcorr_comp_2) """
+pyg.save(fn2, prectotcorr_comp_2) 
 
-def compute_DJFM_climatology(prectotcorr, yrs):
+""" def compute_DJFM_climatology(prectotcorr, yrs):
     if yrs is None:
 	    yrs = (1980, 2021) # climatology base period # change as needed
 	    fn = path + '%s_climatology.nc' % prectotcorr # make a path, fn = filename 
@@ -135,7 +134,7 @@ def compute_DJFM_climatology(prectotcorr, yrs):
 
 tp_1 = compute_DJFM_climatology('PRECTOTCORR', (1980,2000))
 tp_2 = compute_DJFM_climatology('PRECTOTCORR', (2000,2020))
-tp_3 = compute_DJFM_climatology('PRECTOTCORR', (1980,2020))
+tp_3 = compute_DJFM_climatology('PRECTOTCORR', (1980,2020)) """
 
 #tp_1 = compute_DJFM_climatology('PRECTOTCORR', (1940,1960))
 """tp_2 = compute_DJFM_climatology('PRECTOTCORR', (1960,1980))

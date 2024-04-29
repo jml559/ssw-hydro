@@ -40,10 +40,9 @@ prectot_cs = compute_climatology('TPRAT_GDS4_SFC_ave3h', (2000,2019)) # change a
 prectot_cs_2 = compute_climatology('TPRAT_GDS4_SFC_ave3h', (1980,1999))
 prectot_cs_3 = compute_climatology('TPRAT_GDS4_SFC_ave3h', (1960,1979)) """
 
-# nohup python script.py >& logfile.out &
 # rename "TPRAT_climatology_1980to2021.nc" (or other start/end year) """
 
-""" def compute_composite(v,i1,i2,climo_fn):  
+def compute_composite(v,i1,i2,climo_fn):  
    file = open(path2+'ssw_dates.txt','r')
    content = file.readlines()
    dates = content[i1:i2]  
@@ -74,23 +73,23 @@ prectot_cs_3 = compute_climatology('TPRAT_GDS4_SFC_ave3h', (1960,1979)) """
    return tp_anom 
 
 #tp_comp = compute_composite(ds.TPRAT_GDS4_SFC_ave3h) # don't need to subset v
-tp_comp_1 = compute_composite(ds.TPRAT_GDS4_SFC_ave3h,38,53,path+"TPRAT_GDS4_SFC_ave3h_climatology_2000to2019.nc")
-fn1 = path + 'TPRAT_composite_2000to2019_rel_2000to2019clim.nc'
+tp_comp_1 = compute_composite(ds.TPRAT_GDS4_SFC_ave3h,39,53,path+"TPRAT_DJFM_climatology_2000to2020.nc")
+fn1 = path + 'TPRAT_DJFM_composite_2000to2020.nc'
 print(fn1)
 pyg.save(fn1, tp_comp_1) 
 
-tp_comp_2 = compute_composite(ds.TPRAT_GDS4_SFC_ave3h,27,38,path+"TPRAT_GDS4_SFC_ave3h_climatology_1980to1999.nc")
-fn2 = path + 'TPRAT_composite_1980to1999_rel_1980to1999clim.nc'
+tp_comp_2 = compute_composite(ds.TPRAT_GDS4_SFC_ave3h,28,39,path+"TPRAT_DJFM_climatology_1980to2000.nc")
+fn2 = path + 'TPRAT_DJFM_composite_1980to2000.nc'
 print(fn2)
 pyg.save(fn2, tp_comp_2) 
 
-tp_comp_3 = compute_composite(ds.TPRAT_GDS4_SFC_ave3h,14,27,path+"TPRAT_GDS4_SFC_ave3h_climatology_1960to1979.nc")
-fn3 = path + 'TPRAT_composite_1960to1979_rel_1960to1979clim.nc'
+tp_comp_3 = compute_composite(ds.TPRAT_GDS4_SFC_ave3h,15,28,path+"TPRAT_DJFM_climatology_1960to1980.nc")
+fn3 = path + 'TPRAT_DJFM_composite_1960to1980.nc'
 print(fn3)
 pyg.save(fn3, tp_comp_3) 
 
 #print(prectot_comp)
-#pyg.showvar(prectot_comp(time=(-40,0), lat=40, lon=-70)) """
+#pyg.showvar(prectot_comp(time=(-40,0), lat=40, lon=-70)) 
 
 # 1958 to 1980 SSWs (relative to 1980-2021 climatology)
 """ year_list = [path+"fcst_*319.%d*_%d*.nc" % (a,a) for a in range(1958,1981)]
@@ -166,7 +165,7 @@ fn2 = path + 'TPRAT_composite_2001to2021_rel_2001to2021clim.nc' # edit as needed
 pyg.save(fn2, tp_comp) """
 
 # 20-year SST anomalies relative to whole period climatology, DJFM season 
-def compute_DJFM_climatology(tp, yrs):
+""" def compute_DJFM_climatology(tp, yrs):
     if yrs is None:
 	    yrs = (1980, 2021) # climatology base period # change as needed
 	    fn = path + '%s_climatology.nc' % tp # make a path, fn = filename 
@@ -184,14 +183,14 @@ def compute_DJFM_climatology(tp, yrs):
     prectot_cs = prectot_c.fft_smooth('time', 4) # retains first 4 harmonic functions 
     #print(prectot_cs)
     #return None
-    pyg.save(fn, prectot_cs)
+    pyg.save(fn, prectot_cs) """
 
 #tp_1 = compute_DJFM_climatology('TPRAT_GDS4_SFC_ave3h', (1940,1960)) # don't use
 """ tp_2 = compute_DJFM_climatology('TPRAT_GDS4_SFC_ave3h', (1960,1980))
 tp_3 = compute_DJFM_climatology('TPRAT_GDS4_SFC_ave3h', (1980,2000))
 tp_4 = compute_DJFM_climatology('TPRAT_GDS4_SFC_ave3h', (2000,2020))
-tp_5 = compute_DJFM_climatology('TPRAT_GDS4_SFC_ave3h', (1940,2020)) """
-tp_6 = compute_DJFM_climatology('TPRAT', (1960,2020))
+tp_5 = compute_DJFM_climatology('TPRAT_GDS4_SFC_ave3h', (1940,2020)) 
+tp_6 = compute_DJFM_climatology('TPRAT', (1960,2020)) """
 # rename files
 
 

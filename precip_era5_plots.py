@@ -50,23 +50,23 @@ ax2.axes[0].set_extent([0,359,20,90],crs=ccrs.PlateCarree()) # restrict domain t
 
 
 # climatology differences
-""" ds_1 = pyg.open(path + "tp_DJFM_climatology_2000to2020.nc") ###
+ds_1 = pyg.open(path + "tp_DJFM_climatology_2000to2020.nc") ###
 ds_base = pyg.open(path + "tp_DJFM_climatology_1940to2020.nc") # base period
-n_days = 120
-
-cm = pyg.clfdict(cdelt=50, ndiv=6, nl=0, nf=2, style='seq', cmap=pyl.cm.BrBG, extend='both') # both
-diff = 1000*24*n_days*(ds_1.TP_CLIM.mean("time") - ds_base.TP_CLIM.mean("time"))
+#n_days = 120
+cm = pyg.clfdict(cdelt=0.5, ndiv=6, nl=0, nf=2, style='seq', cmap=pyl.cm.BrBG, extend='both') # both
+diff = 1000*24*(ds_1.TP_CLIM.mean("time") - ds_base.TP_CLIM.mean("time"))
 pyl.ioff()
 
 ax = pyg.showvar(diff, **cm) 
 ax.axes[0].setp(title = "ERA-5 DJFM precip climo (2000-2020 minus 1940-2020)") ###
-ax.axes[1].setp(title = "mm")
+#ax.axes[1].setp(title = "mm/d")
 pyl.ion()
 ax.render() 
+ax.axes[1].ax.set_title("mm/d", y=1.05, fontsize=12) 
 
 path = "/local1/storage1/jml559/ssw-hydro/"
 fn = "ERA5_2000to2020_minus_1940to2020_precip_climo_DJFM.pdf" ###
-pyl.savefig(path + fn) """
+pyl.savefig(path + fn)
 
 # parameters - change as needed
 """ n_events = 15

@@ -35,7 +35,7 @@ fn = "JRA55_1980to2020_precip_climo_DJFM.pdf" ###
 pyl.savefig(path + fn) """
 
 # climatology plot; polar projection focusing on NH 
-ds_clim = pyg.open(path + "TPRAT_DJFM_climatology_1960to2020.nc") ###
+""" ds_clim = pyg.open(path + "TPRAT_DJFM_climatology_1960to2020.nc") ###
 ds_clim_avg_3h6h = ds_clim.TP_CLIM.mean("forecast_time1").mean("time")
 cm = pyg.clfdict(cdelt=1.5, min=0, ndiv=5, nl=1, nf=5, style='seq', cmap=pyl.cm.viridis, extend='max')
 pyl.ioff()
@@ -49,26 +49,25 @@ ax.axes[1].ax.set_title("mm/d", y=1.05, fontsize=12)
 
 path = "/local1/storage1/jml559/ssw-hydro/"
 fn = "ps_JRA55_1960to2020_precip_climo_DJFM.pdf" ###
-pyl.savefig(path + fn) 
-
-
+pyl.savefig(path + fn) """
 
 # climatology differences
-""" ds_1 = pyg.open(path + "TPRAT_GDS4_SFC_ave3h_DJFM_climatology_1960to1980.nc")
-ds_base = pyg.open(path + "TPRAT_GDS4_SFC_ave3h_DJFM_climatology_1960to1980.nc") # fix
-cm = pyg.clfdict(cdelt=500, ndiv=6, nl=0, nf=5, style='seq', cmap=pyl.cm.BrBG, extend='max')
-diff = 365*(ds_base.TP_CLIM.mean("forecast_time1").mean("time") - ds_1.TP_CLIM.mean("forecast_time1").mean("time"))
+ds_1 = pyg.open(path + "TPRAT_DJFM_climatology_2000to2020.nc") ###
+ds_base = pyg.open(path + "TPRAT_DJFM_climatology_1960to2020.nc") 
+cm = pyg.clfdict(cdelt=0.5, ndiv=6, nl=0, nf=5, style='seq', cmap=pyl.cm.BrBG, extend='both')
+diff = ds_base.TP_CLIM.mean("forecast_time1").mean("time") - ds_1.TP_CLIM.mean("forecast_time1").mean("time") # mult by 365 for mm/yr, otherwise mm/d
 pyl.ioff()
 
 ax = pyg.showvar(diff, **cm) 
-ax.axes[0].setp(title = "JRA-55 precip climo (2001-2021 minus 1980-2000)")
-ax.axes[1].setp(title = "mm")
+ax.axes[0].setp(title = "JRA-55 precip climo (2000-2020 minus 1960-2020)") ###
+#ax.axes[1].setp(title = "mm")
 pyl.ion()
 ax.render() 
+ax.axes[1].ax.set_title("mm/d", y=1.05, fontsize=12) 
 
 path = "/local1/storage1/jml559/ssw-hydro/"
-fn = "ERA5_2000to2021_minus_1980to2000_precip_climo.pdf"
-pyl.savefig(path + fn) """
+fn = "JRA55_2000to2020_minus_1960to2020_precip_climo_DJFM.pdf" ###
+pyl.savefig(path + fn)
 
 # parameters
 """ n_events = 15 # adjust as needed

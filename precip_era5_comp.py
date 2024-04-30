@@ -88,14 +88,15 @@ def compute_composite(v,i1,i2,climo_fn):
 
    vr = remove_leap(v)
    vrd = pyg.dailymean(vr).rename(vr.name)
+   vrd = vrd(l_month=(1,2,3,12)) # DJFM only
    
    va = vrd - vclim # va = anomaly
-   print("va:")
+   """print("va:")
    print(va)
    print("vrd:")
    print(vrd)
    print("vclim:")
-   print(vclim)
+   print(vclim)"""
 
    vcomp = va.composite(l_time = dates, evlen = 140, evoff = 40)
    tp_anom = vcomp.rename("tp_anom")

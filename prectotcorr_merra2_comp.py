@@ -87,19 +87,20 @@ def compute_composite(v,i1,i2,climo_fn):
 
    vr = remove_leap(v)
    vrd = pyg.dailymean(vr).rename(vr.name)
+   vrd = vrd(l_month=(1,2,3,12)) # DJFM only
    
    va = vrd - vclim # va = anomaly
-   print("va:")
+   """print("va:")
    print(va)
    print("vrd:")
    print(vrd)
    print("vclim:")
-   print(vclim)
+   print(vclim)"""
 
    vcomp = va.composite(l_time = dates, evlen = 140, evoff = 40)
    prectotcorr_anom = vcomp.rename("prectotcorr_anom")
    prectotcorr_anom = prectotcorr_anom.transpose("time","event","lat","lon")
-   return prectotcorr_anom 
+   return prectotcorr_anom
 
 prectotcorr_comp_1 = compute_composite(ds.PRECTOTCORR,39,53,path+"PRECTOTCORR_DJFM_climatology_2000to2020.nc") # Dec 2000 - Mar 2020
 fn1 = path + "PRECTOTCORR_DJFM_composite_2000to2020_rel_2000to2020clim.nc" ###

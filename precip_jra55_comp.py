@@ -51,25 +51,24 @@ def compute_composite(v,i1,i2,climo_fn):
 
    #yrs = (1980, 2020) # not needed???
    #vc = compute_climatology(v, yrs) # not needed???
-   file2 = pyg.open(climo_fn)
-   #file2 = pyg.open(path+'TPRAT_climatology_1980to2021.nc')  
+   file2 = pyg.open(climo_fn) 
    vclim = pyg.dailymean(file2.TP_CLIM)
 
    vr = remove_leap(v)
    vrd = pyg.dailymean(vr).rename(vr.name)
+   vrd = vrd(l_month=(1,2,3,12)) # DJFM only
    
    va = vrd - vclim # va = anomaly
-   print("va:")
+   """print("va:")
    print(va)
    print("vrd:")
    print(vrd)
    print("vclim:")
-   print(vclim)
+   print(vclim)"""
 
    vcomp = va.composite(l_time = dates, evlen = 140, evoff = 40)
    vcomp = vcomp(forecast_time1 = 3).squeeze()
    tp_anom = vcomp.rename("tp_anom")
-   tp_anom = tp_anom.transpose("time","event","g4_lat_2","g4_lon_3") 
    return tp_anom 
 
 #tp_comp = compute_composite(ds.TPRAT_GDS4_SFC_ave3h) # don't need to subset v

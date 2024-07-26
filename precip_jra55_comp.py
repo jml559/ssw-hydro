@@ -72,7 +72,7 @@ def compute_composite(v,i1,i2,climo_fn):
    return tp_anom 
 
 #tp_comp = compute_composite(ds.TPRAT_GDS4_SFC_ave3h) # don't need to subset v
-tp_comp_1 = compute_composite(ds.TPRAT_GDS4_SFC_ave3h,39,53,path+"TPRAT_DJFM_climatology_2000to2020.nc")
+"""tp_comp_1 = compute_composite(ds.TPRAT_GDS4_SFC_ave3h,39,53,path+"TPRAT_DJFM_climatology_2000to2020.nc")
 fn1 = path + 'TPRAT_DJFM_composite_2000to2020.nc'
 print(fn1)
 pyg.save(fn1, tp_comp_1) 
@@ -85,7 +85,7 @@ pyg.save(fn2, tp_comp_2)
 tp_comp_3 = compute_composite(ds.TPRAT_GDS4_SFC_ave3h,15,28,path+"TPRAT_DJFM_climatology_1960to1980.nc")
 fn3 = path + 'TPRAT_DJFM_composite_1960to1980.nc'
 print(fn3)
-pyg.save(fn3, tp_comp_3) 
+pyg.save(fn3, tp_comp_3) """
 
 #print(prectot_comp)
 #pyg.showvar(prectot_comp(time=(-40,0), lat=40, lon=-70)) 
@@ -164,7 +164,7 @@ fn2 = path + 'TPRAT_composite_2001to2021_rel_2001to2021clim.nc' # edit as needed
 pyg.save(fn2, tp_comp) """
 
 # 20-year SST anomalies relative to whole period climatology, DJFM season 
-""" def compute_DJFM_climatology(tp, yrs):
+def compute_DJFM_climatology(tp, yrs):
     if yrs is None:
 	    yrs = (1980, 2021) # climatology base period # change as needed
 	    fn = path + '%s_climatology.nc' % tp # make a path, fn = filename 
@@ -182,7 +182,7 @@ pyg.save(fn2, tp_comp) """
     prectot_cs = prectot_c.fft_smooth('time', 4) # retains first 4 harmonic functions 
     #print(prectot_cs)
     #return None
-    pyg.save(fn, prectot_cs) """
+    pyg.save(fn, prectot_cs)  
 
 #tp_1 = compute_DJFM_climatology('TPRAT_GDS4_SFC_ave3h', (1940,1960)) # don't use
 """ tp_2 = compute_DJFM_climatology('TPRAT_GDS4_SFC_ave3h', (1960,1980))
@@ -190,6 +190,7 @@ tp_3 = compute_DJFM_climatology('TPRAT_GDS4_SFC_ave3h', (1980,2000))
 tp_4 = compute_DJFM_climatology('TPRAT_GDS4_SFC_ave3h', (2000,2020))
 tp_5 = compute_DJFM_climatology('TPRAT_GDS4_SFC_ave3h', (1940,2020)) 
 tp_6 = compute_DJFM_climatology('TPRAT', (1960,2020)) """
+tp_7 = compute_DJFM_climatology('TPRAT_GDS4_SFC_ave3h', (1980,2020))
 # rename files
 
 

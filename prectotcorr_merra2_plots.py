@@ -53,22 +53,24 @@ fn = "ps_MERRA2_1980to2020_precip_climo_DJFM.pdf" ###
 pyl.savefig(path + fn) """
 
 # climatology differences
-ds_1 = pyg.open(path + "PRECTOTCORR_DJFM_climatology_1980to2000.nc") ###
-ds_base = pyg.open(path + "PRECTOTCORR_DJFM_climatology_1980to2020.nc") # base period
+ds_1 = pyg.open(path + "remapcon2_PRECTOTCORR_DJFM_climatology_2000to2020.nc") ###
+ds_base = pyg.open("mrm_DJFM_1980to2020.nc")
+#ds_base = pyg.open(path + "PRECTOTCORR_DJFM_climatology_1980to2020.nc") # base period
 cm = pyg.clfdict(cdelt=0.5, ndiv=6, nl=0, nf=2, style='seq', cmap=pyl.cm.BrBG, extend='both') # both
-diff = 3600*24*(ds_1.PRECTOTCORR_CLIM.mean("time") - ds_base.PRECTOTCORR_CLIM.mean("time"))
+#diff = 3600*24*(ds_1.PRECTOTCORR_CLIM.mean("time") - ds_base.PRECTOTCORR_CLIM.mean("time"))
+diff = 3600*24*ds_1.PRECTOTCORR_CLIM.mean("time") - ds_base.MRM
 pyl.ioff()
 map = dict(projection = "NorthPolarStereo")
 
 ax = pyg.showvar(diff, map=map, **cm) 
 ax.axes[0].set_extent([0,359,20,90],crs=ccrs.PlateCarree())
-ax.axes[0].setp(title = "MERRA-2 DJFM precip climo (1980-2000 minus 1980-2020)") ###
+ax.axes[0].setp(title = "MERRA-2 DJFM precip climo (2000-2020 minus 1980-2020 MRM)") ###
 pyl.ion()
 ax.render() 
 ax.axes[1].ax.set_title("mm/d", y=1.05, fontsize=12) 
 
 path = "/local1/storage1/jml559/ssw-hydro/"
-fn = "ps_MERRA2_1980to2000_minus_1980to2020_precip_climo_DJFM.pdf" ###
+fn = "ps_MERRA2_2000to2020_minus_1980to2020_precip_MRM_DJFM.pdf" ###
 pyl.savefig(path + fn) 
 
 

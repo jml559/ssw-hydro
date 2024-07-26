@@ -16,7 +16,7 @@ def remove_leap(v):
     return pyg.timeutils.removeleapyears(v, omitdoy_leap=[182])
 	# omits the 182nd day of the year during leap years
 
-""" def compute_climatology(prectotcorr, yrs): 
+def compute_climatology(prectotcorr, yrs): 
     if yrs is None:
 	    yrs = (1981, 2020) # yrs is a tuple # climatology base period
 	    fn = path + '%s_climatology.nc' % prectotcorr # make a path, fn = filename 
@@ -39,16 +39,16 @@ def remove_leap(v):
     #return None
     pyg.save(fn, prectot_cs)
 
-prectot_cs = compute_climatology('PRECTOTCORR', (2000,2019)) # change as needed 
+""" prectot_cs = compute_climatology('PRECTOTCORR', (2000,2019)) # change as needed 
 prectot_cs_2 = compute_climatology('PRECTOTCORR', (1980,1999)) """
 
-""" def compute_DJF_climatology(prectotcorr, yrs):
+def compute_DJF_climatology(prectotcorr, yrs): # DO NOT USE
     if yrs is None:
 	    yrs = (1981, 2020) # yrs is a tuple # climatology base period
-	    fn = path + '%s_climatology.nc' % prectotcorr # make a ppth, fn = filename 
+	    fn = path + '%s_climatology.nc' % prectotcorr # make a path, fn = filename 
     else:
         def sel(var):
-            return var(time=("1 Dec %d" % yrs[0],"1 Mar %d" % yrs[1]),l_month=(12,1,2)) 
+            return var(time=("1 Dec %d" % yrs[0],"31 Mar %d" % yrs[1]),l_month=(12,1,2,3)) 
         fn = path + '%s_DJF_climatology_%dto%d.nc' % (prectotcorr, yrs[0], yrs[1])
         #time = 
     #time = (("1 Dec %d" % yrs[0],"1 Mar %d" % yrs[1]),l_month=(12,1,2))
@@ -67,7 +67,7 @@ prectot_cs_2 = compute_climatology('PRECTOTCORR', (1980,1999)) """
     pyg.save(fn, prectot_cs) 
 
 #prectot_cs = compute_DJF_climatology("PRECTOTCORR", (2000,2020))
-#prectot_cs = compute_DJF_climatology("PRECTOTCORR", (1980,2000)) """
+#prectot_cs = compute_DJF_climatology("PRECTOTCORR", (1980,2000)) 
 
 # read ssw_dates.txt
 # get a list of dates, with each date/entry as a string 
@@ -102,7 +102,7 @@ def compute_composite(v,i1,i2,climo_fn):
    prectotcorr_anom = prectotcorr_anom.transpose("time","event","lat","lon")
    return prectotcorr_anom
 
-prectotcorr_comp_1 = compute_composite(ds.PRECTOTCORR,39,53,path+"PRECTOTCORR_DJFM_climatology_2000to2020.nc") # Dec 2000 - Mar 2020
+"""prectotcorr_comp_1 = compute_composite(ds.PRECTOTCORR,39,53,path+"PRECTOTCORR_DJFM_climatology_2000to2020.nc") # Dec 2000 - Mar 2020
 fn1 = path + "PRECTOTCORR_DJFM_composite_2000to2020_rel_2000to2020clim.nc" ###
 print(fn1)
 pyg.save(fn1, prectotcorr_comp_1) 
@@ -110,7 +110,7 @@ pyg.save(fn1, prectotcorr_comp_1)
 prectotcorr_comp_2 = compute_composite(ds.PRECTOTCORR,28,39,path+"PRECTOTCORR_DJFM_climatology_1980to2000.nc") # Dec 1980 - Mar 2000
 fn2 = path + "PRECTOTCORR_DJFM_composite_1980to2000_rel_1980to2000clim.nc" ###
 print(fn2)
-pyg.save(fn2, prectotcorr_comp_2) 
+pyg.save(fn2, prectotcorr_comp_2) """
 
 """ def compute_DJFM_climatology(prectotcorr, yrs):
     if yrs is None:
@@ -145,3 +145,11 @@ tp_5 = compute_DJFM_climatology('PRECTOTCORR', (1940,2020)) """
 
 # only compute MERRA from 1980-2020 onwards
 
+### FILES
+# /local1/storage1/jml559/era5/tp/remapscon2_Lon360Lat180_tp_climatology_1980to2021.nc
+# /local1/storage1/jml559/jra55/tprat/remapscon2_Lon360Lat180_TPRAT_climatology_1980to2021.nc
+# not available for MERRA-2
+
+# /local1/storage1/jml559/merra2/PRECTOTCORR_DJFM_climatology_1980to2020.nc
+# JRA-55 
+# ERA-5

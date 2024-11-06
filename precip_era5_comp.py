@@ -227,7 +227,10 @@ tp_2 = compute_DJFM_climatology('tp', (1960,1980))
 tp_3 = compute_DJFM_climatology('tp', (1980,2000))
 tp_4 = compute_DJFM_climatology('tp', (2000,2020))
 tp_5 = compute_DJFM_climatology('tp', (1940,2020)) """
-tp_6 = compute_DJFM_climatology('tp', (1980,2020))
+#tp_6 = compute_DJFM_climatology('tp', (1980,2020))
+tp_7 = compute_DJFM_climatology('tp', (1950,1970))
+tp_8 = compute_DJFM_climatology('tp', (1970,1990))
+tp_9 = compute_DJFM_climatology('tp', (1990,2010))
 
 # consult era5 comp and plots files for what to do next
 # essentially plotting four anomaly maps

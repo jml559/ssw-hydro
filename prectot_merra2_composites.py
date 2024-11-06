@@ -40,23 +40,6 @@ def remove_leap(v):
 
 #prectot_cs = compute_climatology('PRECTOT', (1980,2021)) """
 
-def compute_DJF_climatology(prectot, yrs):
-    if yrs is None:
-	    yrs = (1981, 2020) # yrs is a tuple # climatology base period
-	    fn = path + '%s_climatology.nc' % prectot # make a ppth, fn = filename 
-    else:
-	    fn = path + '%s_DJF_climatology_%dto%d.nc' % (prectot, yrs[0], yrs[1])
-        time = 
-
-        for i in range(1,len(yrs[1] - yrs[0])):
-            time_slice = ('1 Dec %d' % yrs[0], '1 Feb %d' % 1+yrs[0]) # loop?
-
-
-
-
-
-
-
 # read ssw_dates.txt
 # get a list of dates, with each date/entry as a string 
 # lines 2 to 48

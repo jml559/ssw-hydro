@@ -190,7 +190,10 @@ tp_3 = compute_DJFM_climatology('TPRAT_GDS4_SFC_ave3h', (1980,2000))
 tp_4 = compute_DJFM_climatology('TPRAT_GDS4_SFC_ave3h', (2000,2020))
 tp_5 = compute_DJFM_climatology('TPRAT_GDS4_SFC_ave3h', (1940,2020)) 
 tp_6 = compute_DJFM_climatology('TPRAT', (1960,2020)) """
-tp_7 = compute_DJFM_climatology('TPRAT_GDS4_SFC_ave3h', (1980,2020))
+#tp_7 = compute_DJFM_climatology('TPRAT_GDS4_SFC_ave3h', (1980,2020))
+tp_8 = compute_DJFM_climatology('TPRAT_GDS4_SFC_ave3h', (1970,1990))
+tp_9 = compute_DJFM_climatology('TPRAT_GDS4_SFC_ave3h', (1990,2010))
+
 # rename files
 
 

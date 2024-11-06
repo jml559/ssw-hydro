@@ -11,6 +11,12 @@ year_list = [path+'%d0s/M*%d[0-9]*.nc' % (a,a) for a in range(198,203)]
 ds = pyg.open_multi(year_list, pattern=patt)
 #print(ds)
 
+""" for i in range(7):
+    start_year = 1940 + 10*i 
+    end_year = start_year + 20
+    decadal_mean[i] = ds.PRECTOT(year=(start_year, )) """
+
+
 mean_all = ds.PRECTOT(year=(1980,2021)).mean("time") #.load()
 pyg.save("prectot_merra2_clima",mean_all)
 #print(mean_all)

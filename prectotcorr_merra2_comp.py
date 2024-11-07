@@ -91,6 +91,7 @@ def compute_composite(v,i1,i2,climo_fn):
     vrd = vrd(l_month=(1,2,3,12)) # DJFM only
    
     va = vrd - vclim # va = anomaly
+    print(va)
     """print("va:")
     print(va)
     print("vrd:")
@@ -170,14 +171,14 @@ def compute_composite_v2(v,i1,i2):
             print(sdate)
             print(edate)"""
 
-        vcomp_bef_ = va_(time=(sdate,cdate)).mean("time") # [40,-1]
-        vcomp_aft_ = va_(time=(cdate,edate)).mean("time") # [0,60]
+        vcomp_bef_ = va_(time=(sdate,cdate)).mean("time").rename("prectotcorr_comp") # [40,-1]
+        vcomp_aft_ = va_(time=(cdate,edate)).mean("time").rename("prectotcorr_comp") # [0,60]
         vcomp_bef.append(vcomp_bef_)
         vcomp_aft.append(vcomp_aft_)
 
     print("\n vcomp:")
     print(vcomp_bef[0])
-    print(vcomp_aft[0]) # rename variable to make it easier
+    print(vcomp_aft[0]) 
 
     # convert time to yearless (but time has 121 values?)
     # va did have 2 time axes (somehow)
@@ -210,6 +211,7 @@ fn1 = path + "PRECTOTCORR_DJFM_composite_2000to2020_rel_2000to2020clim.nc" ### "
 #print(fn1)
 #pyg.save(fn1, prectotcorr_comp_1)  
 
+#prectotcorr = compute_composite(ds.PRECTOTCORR,39,53,path+"PRECTOTCORR_DJFM_climatology_2000to2020.nc")
 prectotcorr = compute_composite_v2(ds.PRECTOTCORR,28,53)
 
 """prectotcorr_comp_2 = compute_composite(ds.PRECTOTCORR,28,39,path+"PRECTOTCORR_DJFM_climatology_1980to2000.nc") # Dec 1980 - Mar 2000

@@ -163,15 +163,14 @@ tp_comp = compute_composite(ds.TPRAT_GDS4_SFC_ave3h)
 fn2 = path + 'TPRAT_composite_2001to2021_rel_2001to2021clim.nc' # edit as needed
 pyg.save(fn2, tp_comp) """
 
-# 20-year SST anomalies relative to whole period climatology, DJFM season 
-def compute_DJFM_climatology(tp, yrs):
+def compute_OctToMay_climatology(tp, yrs):
     if yrs is None:
 	    yrs = (1980, 2021) # climatology base period # change as needed
 	    fn = path + '%s_climatology.nc' % tp # make a path, fn = filename 
     else:
         def sel(var):
-            return var(time=("1 Dec %d" % yrs[0],"1 Apr %d" % yrs[1]),l_month=(12,1,2,3))
-        fn = path + '%s_DJFM_climatology_%dto%d.nc' % (tp, yrs[0], yrs[1])
+            return var(time=("1 Dec %d" % yrs[0],"1 Apr %d" % yrs[1]),l_month=(10,11,12,1,2,3,4,5))
+        fn = path + '%s_OctToMay_climatology_%dto%d.nc' % (tp, yrs[0], yrs[1])
 
     prectot_r = remove_leap(ds.vardict[tp])  
     prectot_r = sel(prectot_r) # comment out?
@@ -184,15 +183,18 @@ def compute_DJFM_climatology(tp, yrs):
     #return None
     pyg.save(fn, prectot_cs)  
 
-#tp_1 = compute_DJFM_climatology('TPRAT_GDS4_SFC_ave3h', (1940,1960)) # don't use
-""" tp_2 = compute_DJFM_climatology('TPRAT_GDS4_SFC_ave3h', (1960,1980))
+"""tp_1 = compute_DJFM_climatology('TPRAT_GDS4_SFC_ave3h', (1940,1960)) # don't use
+tp_2 = compute_DJFM_climatology('TPRAT_GDS4_SFC_ave3h', (1960,1980))
 tp_3 = compute_DJFM_climatology('TPRAT_GDS4_SFC_ave3h', (1980,2000))
 tp_4 = compute_DJFM_climatology('TPRAT_GDS4_SFC_ave3h', (2000,2020))
 tp_5 = compute_DJFM_climatology('TPRAT_GDS4_SFC_ave3h', (1940,2020)) 
-tp_6 = compute_DJFM_climatology('TPRAT', (1960,2020)) """
-#tp_7 = compute_DJFM_climatology('TPRAT_GDS4_SFC_ave3h', (1980,2020))
+tp_6 = compute_DJFM_climatology('TPRAT', (1960,2020)) 
+tp_7 = compute_DJFM_climatology('TPRAT_GDS4_SFC_ave3h', (1980,2020))
 tp_8 = compute_DJFM_climatology('TPRAT_GDS4_SFC_ave3h', (1970,1990))
-tp_9 = compute_DJFM_climatology('TPRAT_GDS4_SFC_ave3h', (1990,2010))
+tp_9 = compute_DJFM_climatology('TPRAT_GDS4_SFC_ave3h', (1990,2010))"""
+for i in range(5):
+    compute_OctToMay_climatology('TPRAT_GDS4_SFC_ave3h', (10*i + 1960,10*i + 1980))
+
 
 # rename files
 

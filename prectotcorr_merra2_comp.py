@@ -127,7 +127,12 @@ def compute_composite_v2(v,i1,i2):
     for i, date in enumerate(dates):
         year = int(date.split()[-1])
         years.append(year)
-
+        
+        """if year < 1990:
+            w0[i] = 1
+            w1[i] = 0
+            w2[i] = 0"""
+        
         w0[i] = np.where(year < 1990, 1, np.where((1990 <= year) & (year <= 2000), 
             1 - 0.1 * (year - 1990), 0))
         w1[i] = np.where((1990 <= year) & (year <= 2000), 0.1 * (year - 1990),
@@ -137,10 +142,12 @@ def compute_composite_v2(v,i1,i2):
 
     vclim = []
     vr = []
-    vrd = []
     va = []
     vcomp_bef = []
     vcomp_aft = []
+
+    vr_ = remove_leap(v)
+    vrd_ = pyg.dailymean(vr_).rename(vr_.name)
 
     for i in range(len(dates)):
         ax_ev = pyg.NamedAxis([i], 'event')
@@ -149,16 +156,19 @@ def compute_composite_v2(v,i1,i2):
             + w2[i]*pyg.dailymean(file_10.PRECTOTCORR_CLIM)) # already in time, lat, lon
         vclim.append(vc)
         
-        vr_ = remove_leap(v)
-        vrd_ = pyg.dailymean(vr_).rename(vr_.name)
-        vrd.append(vrd_)
-        
-        va_ = vrd[i] - vclim[i] # va = anomaly
+        va_ = vrd_ - vc # va = anomaly
         va_ = va_.extend(0, ax_ev)
         if i == 0: 
-            print(va_)
+            print(w0[i])
+            print(w1[i])
+            print(w2[i])
+            print(dates[i])
+            print(va_.time)
+            print(vc.time)
+            print(va_(l_month=(12,1,2,3)).time + vc.time)
+            """print(va_)
             print(vrd_)
-            print(vclim[i])
+            print(vclim[i])"""
         va.append(va_)
 
         cdate = dates[i].strip() # central date 
@@ -212,21 +222,21 @@ fn1 = path + "PRECTOTCORR_DJFM_composite_2000to2020_rel_2000to2020clim.nc" ### "
 #pyg.save(fn1, prectotcorr_comp_1)  
 
 #prectotcorr = compute_composite(ds.PRECTOTCORR,39,53,path+"PRECTOTCORR_DJFM_climatology_2000to2020.nc")
-prectotcorr = compute_composite_v2(ds.PRECTOTCORR,28,53)
+#prectotcorr = compute_composite_v2(ds.PRECTOTCORR,37,53) # (28,53)
 
 """prectotcorr_comp_2 = compute_composite(ds.PRECTOTCORR,28,39,path+"PRECTOTCORR_DJFM_climatology_1980to2000.nc") # Dec 1980 - Mar 2000
 fn2 = path + "PRECTOTCORR_DJFM_composite_1980to2000_rel_1980to2000clim.nc" ###
 print(fn2)
 pyg.save(fn2, prectotcorr_comp_2) """
 
-def compute_DJFM_climatology(prectotcorr, yrs):
+def compute_OctToMay_climatology(prectotcorr, yrs):
     if yrs is None:
 	    yrs = (1980, 2021) # climatology base period # change as needed
 	    fn = path + '%s_climatology.nc' % prectotcorr # make a path, fn = filename 
     else:
         def sel(var):
-            return var(time=("1 Dec %d" % yrs[0],"1 Apr %d" % yrs[1]),l_month=(12,1,2,3))
-        fn = path + '%s_DJFM_climatology_%dto%d.nc' % (prectotcorr, yrs[0], yrs[1])
+            return var(time=("1 Dec %d" % yrs[0],"1 Apr %d" % yrs[1]),l_month=(10,11,12,1,2,3,4,5))
+        fn = path + '%s_OctToMay_climatology_%dto%d.nc' % (prectotcorr, yrs[0], yrs[1])
 
     prectot_r = remove_leap(ds.vardict[prectotcorr])  
     prectot_r = sel(prectot_r)
@@ -241,12 +251,15 @@ def compute_DJFM_climatology(prectotcorr, yrs):
     pyg.save(fn, prectot_cs)
 
 
-#tp_1 = compute_DJFM_climatology('PRECTOTCORR', (1940,1960))
-"""tp_2 = compute_DJFM_climatology('PRECTOTCORR', (1960,1980))
+"""tp_1 = compute_DJFM_climatology('PRECTOTCORR', (1940,1960))
+tp_2 = compute_DJFM_climatology('PRECTOTCORR', (1960,1980))
 tp_3 = compute_DJFM_climatology('PRECTOTCORR', (1980,2000))
 tp_4 = compute_DJFM_climatology('PRECTOTCORR', (2000,2020))
-tp_5 = compute_DJFM_climatology('PRECTOTCORR', (1940,2020)) """
-#tp_6 = compute_DJFM_climatology('PRECTOTCORR', (1990,2010))
+tp_5 = compute_DJFM_climatology('PRECTOTCORR', (1940,2020)) 
+tp_6 = compute_DJFM_climatology('PRECTOTCORR', (1990,2010))"""
+"""tp_1 = compute_OctToMay_climatology('PRECTOTCORR', (1980,2000))
+tp_2 = compute_OctToMay_climatology('PRECTOTCORR', (1990,2010))
+tp_3 = compute_OctToMay_climatology('PRECTOTCORR', (2000,2020))"""
 
 """for start_year in range(1950, 1991, 20):
     compute_DJFM_climatology('PRECTOTCORR', (start_year, start_year + 20))

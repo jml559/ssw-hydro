@@ -105,14 +105,14 @@ def compute_composite(v,i1,i2,climo_fn):
     return prectotcorr_anom"""
 
 # linear interpolation/weighting of decadal moving average
-def compute_composite_v2(v,i1,i2):
+def compute_composite_v2(v,i1,i2,bef_fn,aft_fn):
     file = open(path_s+'ssw_dates.txt','r')
     content = file.readlines()
     dates = content[i1:i2]
 
-    climo_files = [path+"PRECTOTCORR_DJFM_climatology_1980to2000.nc",
-     path+"PRECTOTCORR_DJFM_climatology_1990to2010.nc",
-     path+"PRECTOTCORR_DJFM_climatology_2000to2020.nc"]
+    climo_files = [path+"PRECTOTCORR_OctToMay_climatology_1980to2000.nc",
+     path+"PRECTOTCORR_OctToMay_climatology_1990to2010.nc",
+     path+"PRECTOTCORR_OctToMay_climatology_2000to2020.nc"] ## change fn
     
     file_90 = pyg.open(climo_files[0])
     file_00 = pyg.open(climo_files[1])
@@ -128,11 +128,6 @@ def compute_composite_v2(v,i1,i2):
         year = int(date.split()[-1])
         years.append(year)
         
-        """if year < 1990:
-            w0[i] = 1
-            w1[i] = 0
-            w2[i] = 0"""
-        
         w0[i] = np.where(year < 1990, 1, np.where((1990 <= year) & (year <= 2000), 
             1 - 0.1 * (year - 1990), 0))
         w1[i] = np.where((1990 <= year) & (year <= 2000), 0.1 * (year - 1990),
@@ -141,13 +136,13 @@ def compute_composite_v2(v,i1,i2):
             np.where((2010 <= year) & (year <= 2020), 1 - 0.1 * (year - 2010), 0))
 
     vclim = []
-    vr = []
     va = []
     vcomp_bef = []
     vcomp_aft = []
 
-    vr_ = remove_leap(v)
-    vrd_ = pyg.dailymean(vr_).rename(vr_.name)
+    vr = remove_leap(v)
+    vrd = pyg.dailymean(vr).rename(vr.name)
+    vrd = vrd(l_month=(10,11,12,1,2,3,4,5))
 
     for i in range(len(dates)):
         ax_ev = pyg.NamedAxis([i], 'event')
@@ -156,19 +151,8 @@ def compute_composite_v2(v,i1,i2):
             + w2[i]*pyg.dailymean(file_10.PRECTOTCORR_CLIM)) # already in time, lat, lon
         vclim.append(vc)
         
-        va_ = vrd_ - vc # va = anomaly
+        va_ = vrd - vc # va = anomaly
         va_ = va_.extend(0, ax_ev)
-        if i == 0: 
-            print(w0[i])
-            print(w1[i])
-            print(w2[i])
-            print(dates[i])
-            print(va_.time)
-            print(vc.time)
-            print(va_(l_month=(12,1,2,3)).time + vc.time)
-            """print(va_)
-            print(vrd_)
-            print(vclim[i])"""
         va.append(va_)
 
         cdate = dates[i].strip() # central date 
@@ -177,44 +161,35 @@ def compute_composite_v2(v,i1,i2):
         edate_dt = cdate_dt + timedelta(days=61)
         sdate = sdate_dt.strftime("%d %b %Y")
         edate = edate_dt.strftime("%d %b %Y")
-        """if i == 0:
-            print(sdate)
-            print(edate)"""
 
         vcomp_bef_ = va_(time=(sdate,cdate)).mean("time").rename("prectotcorr_comp") # [40,-1]
         vcomp_aft_ = va_(time=(cdate,edate)).mean("time").rename("prectotcorr_comp") # [0,60]
         vcomp_bef.append(vcomp_bef_)
         vcomp_aft.append(vcomp_aft_)
 
-    print("\n vcomp:")
-    print(vcomp_bef[0])
-    print(vcomp_aft[0]) 
+    # one composite for precursor and one for aftermath 
+    before = pyg.concatenate(vcomp_bef[i] for i in range(len(vcomp_bef))).mean("event")
+    after = pyg.concatenate(vcomp_aft[i] for i in range(len(vcomp_aft))).mean("event")
 
-    # convert time to yearless (but time has 121 values?)
-    # va did have 2 time axes (somehow)
+    """return before
+    return after""" # uncomment these when running the first time 
 
-    # mean across events
+    pyg.save(bef_fn, before)
+    print("Done saving before")
+    pyg.save(aft_fn, after) # comment out when running the first time
+    print("Done saving after")
 
+    # plotting - maybe keep this to the plotting code 
+    """cm = pyg.clfdict(cdelt=0.5, nf=2, nl=0, ndiv=6, style='seq', cmap=pyl.cm.BrBG, extend='both') 
+    pyl.ioff()
 
-
-    # mean_pcorr = ds.PRECTOTCORR(year=(1980,2021)).mean("time").load()
-    
-    # for each event 
-    # pick -40 to 0 
-    # pick days 0 to 60 - and compute a time average 
-    # 
-
-    """vcomp = va.composite(l_time = dates, evlen = 140, evoff = 40)
-    prectotcorr_anom = vcomp.rename("prectotcorr_anom")
-    prectotcorr_anom = prectotcorr_anom.transpose("time","event","lat","lon")
-    return prectotcorr_anom"""
-
-    # create weighting variables 
-    # vclim = w50*vclim50 + ... 
-    # vclim -> year, day, lat, lon 
-    # TimeUtils function: timeutils.joinaxes() to collapse time axis
-    # for ERA-5, e.g., the year will be a linear sequence of integers
-    # c -> time, lat, lon
+    map = dict(projection = "NorthPolarStereo")
+    ax1 = pyg.showvar(3600*24*before, map=map, **cm) # map = map
+    ax1.axes[0].set_extent([0,359,20,90],crs=ccrs.PlateCarree()) # restrict domain to 20N to 90N
+    ax1.axes[0].setp(title = "Precip anomaly 40-1 days before SSWs \n(95% significance stippled), PRECTOTCORR")
+    pyl.ion()
+    ax1.render() 
+    ax1.axes[1].ax.set_title("mm/d", y=1.05, fontsize=12) """
 
 """prectotcorr_comp_1 = compute_composite(ds.PRECTOTCORR,39,53,path+"PRECTOTCORR_DJFM_climatology_2000to2020.nc") # Dec 2000 - Mar 2020
 fn1 = path + "PRECTOTCORR_DJFM_composite_2000to2020_rel_2000to2020clim.nc" ### """
@@ -222,7 +197,13 @@ fn1 = path + "PRECTOTCORR_DJFM_composite_2000to2020_rel_2000to2020clim.nc" ### "
 #pyg.save(fn1, prectotcorr_comp_1)  
 
 #prectotcorr = compute_composite(ds.PRECTOTCORR,39,53,path+"PRECTOTCORR_DJFM_climatology_2000to2020.nc")
-#prectotcorr = compute_composite_v2(ds.PRECTOTCORR,37,53) # (28,53)
+compute_composite_v2(ds.PRECTOTCORR,28,39,
+    path+"before_SSWs_OctToMay_1980to2000.nc",
+    path+"after_SSWs_OctToMay_1980to2000.nc") 
+
+compute_composite_v2(ds.PRECTOTCORR,39,53,
+    path+"before_SSWs_OctToMay_2000to2020.nc",
+    path+"after_SSWs_OctToMay_2000to2020.nc") 
 
 """prectotcorr_comp_2 = compute_composite(ds.PRECTOTCORR,28,39,path+"PRECTOTCORR_DJFM_climatology_1980to2000.nc") # Dec 1980 - Mar 2000
 fn2 = path + "PRECTOTCORR_DJFM_composite_1980to2000_rel_1980to2000clim.nc" ###
@@ -264,6 +245,8 @@ tp_3 = compute_OctToMay_climatology('PRECTOTCORR', (2000,2020))"""
 """for start_year in range(1950, 1991, 20):
     compute_DJFM_climatology('PRECTOTCORR', (start_year, start_year + 20))
     print(f"{start_year} to {start_year + 20} is done")"""
+
+compute_OctToMay_climatology('PRECTOTCORR', (1980,2020))
 
 # only compute MERRA from 1980-2020 onwards
 

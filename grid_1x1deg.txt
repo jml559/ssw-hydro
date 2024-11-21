@@ -15,4 +15,4 @@ yunits    = "degrees_north"
 xfirst    = 0
 xinc      = 1
 yfirst    = -89.5
-yinc      = 1
+yinc      = -1

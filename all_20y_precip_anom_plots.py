@@ -1,6 +1,6 @@
 ### all_20y_precip_anom_plots.py
 # computes 20-year Oct to May precipitation anomalies
-# Relative to Oct to May multi-reanalysis mean precipitation in 1980-2020
+# Relative to Oct to May multi-reanalysis mean precipitation in 2000-2020
 
 import pygeode as pyg
 import pylab as pyl; pyl.ion();

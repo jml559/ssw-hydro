@@ -46,18 +46,20 @@ def plot_comp(data_list, titles, fn, conv_factor):
     path = "/local1/storage1/jml559/ssw-hydro/regridded-plots/"
     pyl.savefig(path + fn)
 
-"""titles = ["1980-2000","2000-2020"]
+titles = ["1980-2000","2000-2020"]
 plot_comp(m2_bef, titles, "ps_MERRA2_before_SSWs_all.pdf", 3600*24)
-plot_comp(m2_aft, titles, "ps_MERRA2_after_SSWs_all.pdf", 3600*24)"""
+plot_comp(m2_aft, titles, "ps_MERRA2_after_SSWs_all.pdf", 3600*24)
+print("Done")
 
-"""titles = ["1940-1960", "1960-1980", "1980-2000", "2000-2020"]
+titles = ["1940-1960", "1960-1980", "1980-2000", "2000-2020"]
 plot_comp(e5_bef, titles, "ps_ERA5_before_SSWs_all.pdf", 1000*24)
-plot_comp(e5_aft, titles, "ps_ERA5_after_SSWs_all.pdf", 1000*24)"""
+plot_comp(e5_aft, titles, "ps_ERA5_after_SSWs_all.pdf", 1000*24)
+print("Done")
 
 titles = ["1960-1980", "1980-2000", "2000-2020"]
 plot_comp(j5_bef, titles, "ps_JRA55_before_SSWs_all.pdf", 1)
 plot_comp(j5_aft, titles, "ps_JRA55_after_SSWs_all.pdf", 1)
-
+print("Done")
 
 
 

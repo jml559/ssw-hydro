@@ -169,8 +169,8 @@ def compute_composite_v2(v,i1,i2,bef_fn,aft_fn):
             np.where((1990 <= year) & (year <= 2000), 1 - 0.1 * (year - 1990), 0))
         w5[i] = np.where((1990 <= year) & (year <= 2000), 0.1 * (year - 1990),
             np.where((2000 <= year) & (year <= 2010), 1 - 0.1 * (year - 2000), 0))
-        w6[i] = np.where((2000 <= year) & (year <= 2010), 0.1 * (year - 2000),
-            np.where((2010 <= year) & (year <= 2020), 1 - 0.1 * (year - 2010), 0))
+        w6[i] = np.where(year >= 2010, 1, np.where((2000 <= year) & (year <= 2010), 
+            0.1 * (year - 2000), 0))
 
     vclim = []
     va = []
@@ -220,12 +220,12 @@ def compute_composite_v2(v,i1,i2,bef_fn,aft_fn):
     pyg.save(aft_fn, after) # comment out when running the first time
     print("Done saving after")
 
-compute_composite_v2(ds.tp,2,15,path+"before_SSWs_OctToMay_1940to1960.nc",
+"""compute_composite_v2(ds.tp,2,15,path+"before_SSWs_OctToMay_1940to1960.nc",
                     path+"after_SSWs_OctToMay_1940to1960.nc")
 compute_composite_v2(ds.tp,15,28,path+"before_SSWs_OctToMay_1960to1980.nc",
                     path+"after_SSWs_OctToMay_1960to1980.nc")
 compute_composite_v2(ds.tp,28,39,path+"before_SSWs_OctToMay_1980to2000.nc",
-                    path+"after_SSWs_OctToMay_1980to2000.nc")
+                    path+"after_SSWs_OctToMay_1980to2000.nc") """
 compute_composite_v2(ds.tp,39,53,path+"before_SSWs_OctToMay_2000to2020.nc",
                     path+"after_SSWs_OctToMay_2000to2020.nc")
 

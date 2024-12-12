@@ -132,8 +132,10 @@ def compute_composite_v2(v,i1,i2,bef_fn,aft_fn):
             1 - 0.1 * (year - 1990), 0))
         w1[i] = np.where((1990 <= year) & (year <= 2000), 0.1 * (year - 1990),
             np.where((2000 <= year) & (year <= 2010), 1 - 0.1 * (year - 2000), 0))
-        w2[i] = np.where((2000 <= year) & (year <= 2010), 0.1 * (year - 2000),
-            np.where((2010 <= year) & (year <= 2020), 1 - 0.1 * (year - 2010), 0))
+        w2[i] = np.where(year >= 2010, 1, np.where((2000 <= year) & (year <= 2010), 
+            0.1 * (year - 2000), 0))
+        #w2[i] = np.where((2000 <= year) & (year <= 2010), 0.1 * (year - 2000),
+            #np.where((2010 <= year) & (year <= 2020), 1 - 0.1 * (year - 2010), 0))
 
     vclim = []
     va = []
@@ -197,9 +199,9 @@ fn1 = path + "PRECTOTCORR_DJFM_composite_2000to2020_rel_2000to2020clim.nc" ### "
 #pyg.save(fn1, prectotcorr_comp_1)  
 
 #prectotcorr = compute_composite(ds.PRECTOTCORR,39,53,path+"PRECTOTCORR_DJFM_climatology_2000to2020.nc")
-compute_composite_v2(ds.PRECTOTCORR,28,39,
+"""compute_composite_v2(ds.PRECTOTCORR,28,39,
     path+"before_SSWs_OctToMay_1980to2000.nc",
-    path+"after_SSWs_OctToMay_1980to2000.nc") 
+    path+"after_SSWs_OctToMay_1980to2000.nc") """
 
 compute_composite_v2(ds.PRECTOTCORR,39,53,
     path+"before_SSWs_OctToMay_2000to2020.nc",
@@ -246,7 +248,7 @@ tp_3 = compute_OctToMay_climatology('PRECTOTCORR', (2000,2020))"""
     compute_DJFM_climatology('PRECTOTCORR', (start_year, start_year + 20))
     print(f"{start_year} to {start_year + 20} is done")"""
 
-compute_OctToMay_climatology('PRECTOTCORR', (1980,2020))
+#compute_OctToMay_climatology('PRECTOTCORR', (1980,2020))
 
 # only compute MERRA from 1980-2020 onwards
 

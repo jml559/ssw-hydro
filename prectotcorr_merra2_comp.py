@@ -170,8 +170,12 @@ def compute_composite_v2(v,i1,i2,bef_fn,aft_fn):
         vcomp_aft.append(vcomp_aft_)
 
     # one composite for precursor and one for aftermath 
-    before = pyg.concatenate(vcomp_bef[i] for i in range(len(vcomp_bef))).mean("event")
-    after = pyg.concatenate(vcomp_aft[i] for i in range(len(vcomp_aft))).mean("event")
+    """before = pyg.concatenate(vcomp_bef[i] for i in range(len(vcomp_bef))).mean("event")
+    after = pyg.concatenate(vcomp_aft[i] for i in range(len(vcomp_aft))).mean("event")"""
+
+    # including event dimension
+    before = pyg.concatenate(vcomp_bef[i] for i in range(len(vcomp_bef)))
+    after = pyg.concatenate(vcomp_aft[i] for i in range(len(vcomp_aft)))
 
     """return before
     return after""" # uncomment these when running the first time 
@@ -203,9 +207,13 @@ fn1 = path + "PRECTOTCORR_DJFM_composite_2000to2020_rel_2000to2020clim.nc" ### "
     path+"before_SSWs_OctToMay_1980to2000.nc",
     path+"after_SSWs_OctToMay_1980to2000.nc") """
 
-compute_composite_v2(ds.PRECTOTCORR,39,53,
+"""compute_composite_v2(ds.PRECTOTCORR,39,53,
     path+"before_SSWs_OctToMay_2000to2020.nc",
-    path+"after_SSWs_OctToMay_2000to2020.nc") 
+    path+"after_SSWs_OctToMay_2000to2020.nc") """
+
+compute_composite_v2(ds.PRECTOTCORR,28,53,
+    path+"before_SSWs_OctToMay_eventlatlon_1980to2020.nc",
+    path+"after_SSWs_OctToMay_eventlatlon_1980to2020.nc")
 
 """prectotcorr_comp_2 = compute_composite(ds.PRECTOTCORR,28,39,path+"PRECTOTCORR_DJFM_climatology_1980to2000.nc") # Dec 1980 - Mar 2000
 fn2 = path + "PRECTOTCORR_DJFM_composite_1980to2000_rel_1980to2000clim.nc" ###

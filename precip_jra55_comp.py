@@ -164,8 +164,12 @@ def compute_composite_v2(v,i1,i2,bef_fn,aft_fn):
         vcomp_aft.append(vcomp_aft_)
 
     # one composite for precursor and one for aftermath 
-    before = pyg.concatenate(vcomp_bef[i] for i in range(len(vcomp_bef))).mean("event").mean("forecast_time1")
-    after = pyg.concatenate(vcomp_aft[i] for i in range(len(vcomp_aft))).mean("event").mean("forecast_time1")
+    """before = pyg.concatenate(vcomp_bef[i] for i in range(len(vcomp_bef))).mean("event").mean("forecast_time1")
+    after = pyg.concatenate(vcomp_aft[i] for i in range(len(vcomp_aft))).mean("event").mean("forecast_time1")"""
+
+    # including event dimension
+    before = pyg.concatenate(vcomp_bef[i] for i in range(len(vcomp_bef))).mean("forecast_time1")
+    after = pyg.concatenate(vcomp_aft[i] for i in range(len(vcomp_aft))).mean("forecast_time1")
 
     """print(before)
     print(after) # uncomment these when running the first time  """
@@ -175,12 +179,18 @@ def compute_composite_v2(v,i1,i2,bef_fn,aft_fn):
     pyg.save(aft_fn, after) # comment out when running the first time
     print("Done saving after")
 
-"""compute_composite_v2(ds.TPRAT_GDS4_SFC_ave3h,15,28,path_j+"before_SSWs_OctToMay_1960to1980.nc",
-                    path_j+"after_SSWs_OctToMay_1960to1980.nc")
-compute_composite_v2(ds.TPRAT_GDS4_SFC_ave3h,28,39,path_j+"before_SSWs_OctToMay_1980to2000.nc",
-                    path_j+"after_SSWs_OctToMay_1980to2000.nc")"""
-compute_composite_v2(ds.TPRAT_GDS4_SFC_ave3h,39,53,path_j+"before_SSWs_OctToMay_2000to2020.nc",
-                    path_j+"after_SSWs_OctToMay_2000to2020.nc")
+"""compute_composite_v2(ds.TPRAT_GDS4_SFC_ave3h,15,28,
+    path_j+"before_SSWs_OctToMay_1960to1980.nc",
+    path_j+"after_SSWs_OctToMay_1960to1980.nc")
+compute_composite_v2(ds.TPRAT_GDS4_SFC_ave3h,28,39,
+    path_j+"before_SSWs_OctToMay_1980to2000.nc",
+    path_j+"after_SSWs_OctToMay_1980to2000.nc")
+compute_composite_v2(ds.TPRAT_GDS4_SFC_ave3h,39,53,
+    path_j+"before_SSWs_OctToMay_2000to2020.nc",
+    path_j+"after_SSWs_OctToMay_2000to2020.nc")"""
+compute_composite_v2(ds.TPRAT_GDS4_SFC_ave3h,15,53,
+    path_j+"before_SSWs_OctToMay_eventlatlon_1960to2020.nc",
+    path_j+"after_SSWs_OctToMay_eventlatlon_1960to2020.nc")
 
 # 1958 to 1980 SSWs (relative to 1980-2021 climatology)
 """ year_list = [path+"fcst_*319.%d*_%d*.nc" % (a,a) for a in range(1958,1981)]

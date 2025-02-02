@@ -1,0 +1,70 @@
+Central Date
+10 Feb 1940	
+07 Feb 1941	
+20 Mar 1942	
+01 Mar 1945	
+18 Feb 1946	
+18 Mar 1946
+5 Mar 1950
+9 Feb 1951
+19 Feb 1952
+19 Nov 1952
+12 Jan 1955
+4 Feb 1957
+1 Feb 1958
+17 Jan 1960
+27 Jan 1963
+16 Dec 1965
+22 Feb 1966
+7 Jan 1968
+28 Nov 1968
+13 Mar 1969
+2 Jan 1970
+18 Jan 1971
+20 Mar 1971
+31 Jan 1973
+9 Jan 1977
+22 Feb 1979
+29 Feb 1980
+4 Mar 1981
+4 Dec 1981
+23 Feb 1984
+1 Jan 1985
+23 Jan 1987
+8 Dec 1987
+14 Mar 1988
+21 Feb 1989
+15 Dec 1998
+25 Feb 1999
+20 Mar 2000
+11 Feb 2001
+30 Dec 2001
+17 Feb 2002
+18 Jan 2003
+4 Jan 2004
+21 Jan 2006
+24 Feb 2007
+22 Feb 2008
+24 Jan 2009
+9 Feb 2010
+24 Mar 2010
+6 Jan 2013
+12 Feb 2018
+1 Jan 2019
+5 Jan 2021
+
+
+Original indices (wrong)
+2:14 (normal) - 1:14 (index) - 13 events
+15:27 (normal) - 14:27 (index) - 13 events
+28:38 (normal) - 27:38 (index) - 11 events
+39:53 (normal) - 38:53 (index) - 15 events 
+Total 52 events 
+
+May need to revise indices (since climatology is from Oct 1940-May 1960, etc.)
+2:15 (normal) - 1:15 (index) - 14 events
+16:28 (normal) - 15:28 (index) - 13 events
+29:39 (normal) - 28:39 (index) - 11 events
+40:53 (normal) - 39:53 (index) - 14 events
+Total 52 events
+

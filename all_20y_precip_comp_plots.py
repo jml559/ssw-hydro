@@ -86,7 +86,8 @@ def plot_diff_and_rmsd(data_list, mrm_list, titles, fn, conv_factor):
         map = dict(projection="NorthPolarStereo")
         ax = pyg.showvar(diff, map=map, **cm)
         ax.axes[0].set_extent([0,359,20,90], crs=ccrs.PlateCarree())
-        ax.axes[0].text(0, 1, f"RMSD: {rmsd} mm/d", transform=ax.transAxes) # to be fixed
+        ax.axes[0].text(0.02, 0.02, f"RMSD: {rmsd} mm/d", transform="Axes", 
+            fontweight="bold", fontsize=18) # to be fixed
         ax.axes[0].setp(title=title)
         axes.append(ax)
 

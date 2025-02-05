@@ -200,12 +200,12 @@ def compute_composite_v2(v,i1,i2,bef_fn,aft_fn):
         vcomp_aft.append(vcomp_aft_)
 
     # one composite for precursor and one for aftermath 
-    before = pyg.concatenate(vcomp_bef[i] for i in range(len(vcomp_bef))).mean("event")
-    after = pyg.concatenate(vcomp_aft[i] for i in range(len(vcomp_aft))).mean("event")
+    """before = pyg.concatenate(vcomp_bef[i] for i in range(len(vcomp_bef))).mean("event")
+    after = pyg.concatenate(vcomp_aft[i] for i in range(len(vcomp_aft))).mean("event") """
 
     # including event dimension
-    """before = pyg.concatenate(vcomp_bef[i] for i in range(len(vcomp_bef)))
-    after = pyg.concatenate(vcomp_aft[i] for i in range(len(vcomp_aft)))"""
+    before = pyg.concatenate(vcomp_bef[i] for i in range(len(vcomp_bef)))
+    after = pyg.concatenate(vcomp_aft[i] for i in range(len(vcomp_aft)))
 
     """print(before)
     print(after) """ # uncomment these when running the first time 
@@ -215,18 +215,18 @@ def compute_composite_v2(v,i1,i2,bef_fn,aft_fn):
     pyg.save(aft_fn, after) # comment out when running the first time
     print("Done saving after") 
 
-compute_composite_v2(ds.tp,1,15,path+"before_SSWs_OctToMay_1940to1960.nc",
+"""compute_composite_v2(ds.tp,1,15,path+"before_SSWs_OctToMay_1940to1960.nc",
                     path+"after_SSWs_OctToMay_1940to1960.nc")
 compute_composite_v2(ds.tp,15,28,path+"before_SSWs_OctToMay_1960to1980.nc",
                     path+"after_SSWs_OctToMay_1960to1980.nc")
 compute_composite_v2(ds.tp,28,39,path+"before_SSWs_OctToMay_1980to2000.nc",
                     path+"after_SSWs_OctToMay_1980to2000.nc") 
 compute_composite_v2(ds.tp,39,53,path+"before_SSWs_OctToMay_2000to2020.nc",
-                    path+"after_SSWs_OctToMay_2000to2020.nc")
+                    path+"after_SSWs_OctToMay_2000to2020.nc") """
 
 # includes event dimension (run separately)
-"""compute_composite_v2(ds.tp,1,53,path+"before_SSWs_OctToMay_eventlatlon_1940to2020.nc",
-                    path+"after_SSWs_OctToMay_eventlatlon_1940to2020.nc")"""
+compute_composite_v2(ds.tp,1,53,path+"before_SSWs_OctToMay_eventlatlon_1940to2020.nc",
+                    path+"after_SSWs_OctToMay_eventlatlon_1940to2020.nc")
 
 
 

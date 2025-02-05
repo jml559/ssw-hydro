@@ -27,7 +27,7 @@ j5_aft = [pyg.open(f"{path_j}remapcon2_after_SSWs_OctToMay_{a}to{a+20}.nc").tpra
             for a in np.arange(1960,2001,20)]
 
 # compute composite anomalies 
-"""def plot_comp(data_list, titles, fn, conv_factor):
+def plot_comp(data_list, titles, fn, conv_factor):
     cm = pyg.clfdict(cdelt=0.5, ndiv=6, nl=0, nf=2, style='seq', cmap=pyl.cm.BrBG, extend='both')
 
     axes = []
@@ -60,10 +60,10 @@ print("Done")
 titles = ["1960-1980", "1980-2000", "2000-2020"]
 plot_comp(j5_bef, titles, "ps_JRA55_before_SSWs_all.pdf", 1)
 plot_comp(j5_aft, titles, "ps_JRA55_after_SSWs_all.pdf", 1)
-print("Done")"""
+print("Done")
 
-# compute multi-reanalysis mean
-_60to80_bef = (1000*24*e5_bef[1] + j5_bef[0])/2
+# compute multi-reanalysis mean composite
+"""_60to80_bef = (1000*24*e5_bef[1] + j5_bef[0])/2
 _60to80_aft = (1000*24*e5_aft[1] + j5_aft[0])/2
 _80to00_bef = (3600*24*m2_bef[0] + 1000*24*e5_bef[2] + j5_bef[1])/3
 _80to00_aft = (3600*24*m2_aft[0] + 1000*24*e5_aft[2] + j5_aft[1])/3
@@ -96,14 +96,14 @@ def plot_diff_and_rmsd(data_list, mrm_list, titles, fn, conv_factor):
     all_axes.render()
 
     path = "/local1/storage1/jml559/ssw-hydro/regridded-plots/"
-    pyl.savefig(path + fn)
+    pyl.savefig(path + fn) """
         
-titles = ["1980-2000", "2000-2020"]
+"""titles = ["1980-2000", "2000-2020"]
 mrm_list_bef = [_80to00_bef, _00to20_bef]
 mrm_list_aft = [_80to00_aft, _00to20_aft]
 plot_diff_and_rmsd(m2_bef, mrm_list_bef, titles, "ps_MERRA2_diff_before_SSWs_all.pdf", 3600*24)
-#plot_diff_and_rmsd(m2_aft, mrm_list_aft, titles, "ps_MERRA2_diff_after_SSWs_all.pdf", 3600*24)
-print("Done")
+plot_diff_and_rmsd(m2_aft, mrm_list_aft, titles, "ps_MERRA2_diff_after_SSWs_all.pdf", 3600*24)
+print("Done") """
 
 # uncomment later + check if plots look sensible
 """titles = ["1960-1980", "1980-2000", "2000-2020"]

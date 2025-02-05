@@ -54,14 +54,14 @@ Central Date
 5 Jan 2021
 
 
-Original indices (wrong)
+Original indices (wrong) *only affected SSTs and ERA-5*
 2:14 (normal) - 1:14 (index) - 13 events
 15:27 (normal) - 14:27 (index) - 13 events
 28:38 (normal) - 27:38 (index) - 11 events
 39:53 (normal) - 38:53 (index) - 15 events 
 Total 52 events 
 
-May need to revise indices (since climatology is from Oct 1940-May 1960, etc.)
+Revised indices (since climatology is from Oct 1940-May 1960, etc.)
 2:15 (normal) - 1:15 (index) - 14 events
 16:28 (normal) - 15:28 (index) - 13 events
 29:39 (normal) - 28:39 (index) - 11 events

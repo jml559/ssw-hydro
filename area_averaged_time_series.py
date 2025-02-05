@@ -35,7 +35,7 @@ def plot_ts(lat1, lat2, lon1, lon2, region, path):
     jra55_aft_arr = jra55_aft.tprat_comp(lat=(lat1,lat2),lon=(lon1,lon2)).mean("latitude","longitude")[:]
 
     # pad time series with leading NaNs 
-    def pad_ts(series, max_len=51):
+    def pad_ts(series, max_len=52):
         padded = np.full(max_len, np.nan)
         padded[-len(series):] = series
         return padded
@@ -48,7 +48,7 @@ def plot_ts(lat1, lat2, lon1, lon2, region, path):
     jra55_aft_arr = pad_ts(jra55_aft_arr)
 
     fig, ax = plt.subplots(1, 2, figsize=(10, 4.5), sharey=True)
-    x_axis = np.arange(1,52)
+    x_axis = np.arange(1,53)
 
     # colors from https://s-rip.github.io/report/colourdefinition.html 
     ax[0].plot(x_axis, era5_bef_arr, label='ERA-5', color="#5F98C6") 
@@ -82,15 +82,15 @@ def plot_ts(lat1, lat2, lon1, lon2, region, path):
     plt.show()
     pyl.savefig(path)
 
-"""plot_ts(36, 44, 350, 359, "Iberia (running climo)", 
+plot_ts(36, 44, 350, 359, "Iberia (running climo)", 
     "/local1/storage1/jml559/ssw-hydro/iberia_runningclimo_ts.pdf")
 plot_ts(55, 70, 4, 20, "Scandinavia (running climo)",
     "/local1/storage1/jml559/ssw-hydro/scandinavia_runningclimo_ts.pdf")
 plot_ts(45, 55, 225, 238, "Pac NW (running climo)",
-    "/local1/storage1/jml559/ssw-hydro/PacNW_runningclimo_ts.pdf")"""
+    "/local1/storage1/jml559/ssw-hydro/PacNW_runningclimo_ts.pdf")
 
 # plots scatterplot of ENSO index vs. area-averaged precip anom 
-def enso_vs_prec_anom(lat1, lat2, lon1, lon2, region, path):
+"""def enso_vs_prec_anom(lat1, lat2, lon1, lon2, region, path):
     era5_bef_arr = era5_bef.prectotcorr_comp(lat=(lat1,lat2),lon=(lon1,lon2)).mean("latitude","longitude")[:]
     era5_aft_arr = era5_aft.prectotcorr_comp(lat=(lat1,lat2),lon=(lon1,lon2)).mean("latitude","longitude")[:]
 
@@ -102,7 +102,7 @@ def enso_vs_prec_anom(lat1, lat2, lon1, lon2, region, path):
 
     path+"sst_composite_1940to1959.nc"
     ninosst_bef_arr 
-    ninosst_aft_arr 
+    ninosst_aft_arr """
 
 
 

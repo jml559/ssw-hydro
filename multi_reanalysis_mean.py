@@ -29,6 +29,7 @@ lon = pyg.Lon(np.linspace(0, 359, 360))
 
 MRM = pyg.Var((lat, lon), values=mrm_arr, name="MRM")
 pyg.save("mrm_OctToMay_2000to2020.nc", MRM)
+print("Saved")
 #pyg.showvar(MRM)
 
 

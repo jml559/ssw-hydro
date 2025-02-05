@@ -45,17 +45,17 @@ def plot_anom(data_list, titles, fn, conv_factor):
 """data_list = [m2_80to00.PRECTOTCORR_CLIM, m2_00to20.PRECTOTCORR_CLIM]
 file = "ps_MERRA2_20yr_precip_anoms.pdf"
 titles = ["1980-2000","2000-2020"]
-plot_anom(data_list, titles, file, 3600*24)""" # for MERRA-2
+plot_anom(data_list, titles, file, 3600*24) """ # for MERRA-2
 
 """data_list = [e5_40to60.TP_CLIM, e5_60to80.TP_CLIM, e5_80to00.TP_CLIM, e5_00to20.TP_CLIM]
 file = "ps_ERA5_20yr_precip_anoms.pdf"
 titles = ["1940-1960", "1960-1980", "1980-2000", "2000-2020"]
-plot_anom(data_list, titles, file, 1000*24)""" # for ERA-5
+plot_anom(data_list, titles, file, 1000*24) """ # for ERA-5
 
-"""data_list = [j55_60to80.TP_CLIM, j55_80to00.TP_CLIM, j55_00to20.TP_CLIM]
+data_list = [j55_60to80.TP_CLIM, j55_80to00.TP_CLIM, j55_00to20.TP_CLIM]
 file = "ps_JRA55_20yr_precip_anoms.pdf"
 titles = ["1960-1980", "1980-2000", "2000-2020"]
-plot_anom(data_list, titles, file, 1)""" # for JRA-55
+plot_anom(data_list, titles, file, 1) # for JRA-55
 
 # climatology differences
 """ds_1 = pyg.open(path + "remapcon2_PRECTOTCORR_DJFM_climatology_2000to2020.nc") ###

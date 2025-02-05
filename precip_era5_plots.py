@@ -72,15 +72,15 @@ fn = "ps_ERA5_2000to2020_minus_1980to2020_precip_MRM_DJFM.pdf" ###
 pyl.savefig(path + fn) """
 
 # parameters - change as needed
-n_events = 51 ###
+n_events = 52 ###
 n_lat = 180
 n_lon = 360 # (180,360) if regridded
 N_resamples = 10000 
 
 #ds_comp = pyg.open(path + "tp_DJFM_composite_2000to2020.nc") ### change name as needed
 #print(ds_comp)
-ds_bef = pyg.open(path + "remapcon2_before_SSWs_OctToMay_eventlatlon_1940to2020.nc") 
-ds_aft = pyg.open(path + "remapcon2_after_SSWs_OctToMay_eventlatlon_1940to2020.nc") 
+ds_bef = pyg.open("/local1/storage1/jml559/era5/remapcon2_before_SSWs_OctToMay_eventlatlon_1940to2020.nc") 
+ds_aft = pyg.open("/local1/storage1/jml559/era5/remapcon2_after_SSWs_OctToMay_eventlatlon_1940to2020.nc") 
 
 prec_anom_before = np.zeros((n_events, n_lat, n_lon))
 prec_anom_after = np.zeros((n_events, n_lat, n_lon))

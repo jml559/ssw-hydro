@@ -128,7 +128,7 @@ sigmask_bef_dry = (1 - 0.5*pyg.Var((ds_bef.latitude,ds_bef.longitude),values=p_b
 sigmask_bef_wet = (1 - 0.5*pyg.Var((ds_bef.latitude,ds_bef.longitude),values=p_bef_wet)) * pyg.sign(prectot_comp_before_ssw)
 #cm = pyg.clfdict(cdelt=12.5, nf=4, nl=0, ndiv=4, style='div', cmap=pyl.cm.BrBG, extend='both') 
 #cm = pyg.clfdict(cdelt=10, nf=4, nl=0, ndiv=3, style='div', cmap=pyl.cm.BrBG, extend='both') 
-cm = pyg.clfdict(cdelt=0.5, nf=2, nl=0, ndiv=6, style='seq', cmap=pyl.cm.BrBG, extend='both') 
+cm = pyg.clfdict(cdelt=0.2, nf=2, nl=0, ndiv=6, style='seq', cmap=pyl.cm.BrBG, extend='both') 
 
 pyl.ioff()
 #ax1 = pyg.showvar(1000*24*40*prectot_comp_before_ssw, **cm) # check

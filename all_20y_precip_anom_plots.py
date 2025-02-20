@@ -8,7 +8,7 @@ import numpy as np
 import matplotlib.pyplot as plt
 import cartopy.crs as ccrs
 
-mrm = pyg.open("/local1/storage1/jml559/ssw-hydro/mrm_OctToMay_2000to2020.nc")
+#mrm = pyg.open("/local1/storage1/jml559/ssw-hydro/mrm_OctToMay_2000to2020.nc")
 path_m = "/local1/storage1/jml559/merra2/"
 path_e = "/local1/storage1/jml559/era5/"
 path_j = "/local1/storage1/jml559/jra55/tprat/"
@@ -22,13 +22,13 @@ j55_60to80 = pyg.open(path_j + "remapcon2_TPRAT_GDS4_SFC_ave3h_OctToMay_climatol
 j55_80to00 = pyg.open(path_j + "remapcon2_TPRAT_GDS4_SFC_ave3h_OctToMay_climatology_1980to2000.nc")
 j55_00to20 = pyg.open(path_j + "remapcon2_TPRAT_GDS4_SFC_ave3h_OctToMay_climatology_2000to2020.nc")
 
-def plot_anom(data_list, titles, fn, conv_factor):
+def plot_anom(data_list, titles, fn, climo_fn, conv_factor):
     cm = pyg.clfdict(cdelt=0.5, ndiv=6, nl=0, nf=2, style='seq', cmap=pyl.cm.BrBG, extend='both')
 
     axes = []
     pyl.ioff()
     for data, title in zip(data_list, titles):
-        diff = conv_factor*data.mean("time") - mrm.MRM
+        diff = conv_factor*data.mean("time") - climo_fn
         map = dict(projection="NorthPolarStereo")
         ax = pyg.showvar(diff, map=map, **cm)
         ax.axes[0].set_extent([0,359,20,90], crs=ccrs.PlateCarree())
@@ -42,20 +42,23 @@ def plot_anom(data_list, titles, fn, conv_factor):
     path = "/local1/storage1/jml559/ssw-hydro/regridded-plots/"
     pyl.savefig(path + fn)
 
-"""data_list = [m2_80to00.PRECTOTCORR_CLIM, m2_00to20.PRECTOTCORR_CLIM]
+data_list = [m2_80to00.PRECTOTCORR_CLIM, m2_00to20.PRECTOTCORR_CLIM]
 file = "ps_MERRA2_20yr_precip_anoms.pdf"
+climo = pyg.open(path_m + "remapcon2_PRECTOTCORR_OctToMay_climatology_2000to2020.nc").PRECTOTCORR_CLIM
 titles = ["1980-2000","2000-2020"]
-plot_anom(data_list, titles, file, 3600*24) """ # for MERRA-2
+plot_anom(data_list, titles, file, climo, 3600*24) # for MERRA-2
 
-"""data_list = [e5_40to60.TP_CLIM, e5_60to80.TP_CLIM, e5_80to00.TP_CLIM, e5_00to20.TP_CLIM]
+data_list = [e5_40to60.TP_CLIM, e5_60to80.TP_CLIM, e5_80to00.TP_CLIM, e5_00to20.TP_CLIM]
 file = "ps_ERA5_20yr_precip_anoms.pdf"
+climo = pyg.open(path_e + "remapcon2_tp_OctToMay_climatology_2000to2020.nc").TP_CLIM
 titles = ["1940-1960", "1960-1980", "1980-2000", "2000-2020"]
-plot_anom(data_list, titles, file, 1000*24) """ # for ERA-5
+plot_anom(data_list, titles, file, climo, 1000*24) # for ERA-5
 
 data_list = [j55_60to80.TP_CLIM, j55_80to00.TP_CLIM, j55_00to20.TP_CLIM]
 file = "ps_JRA55_20yr_precip_anoms.pdf"
+climo = pyg.open(path_j + "remapcon2_TPRAT_GDS4_SFC_ave3h_OctToMay_climatology_2000to2020.nc").TP_CLIM
 titles = ["1960-1980", "1980-2000", "2000-2020"]
-plot_anom(data_list, titles, file, 1) # for JRA-55
+plot_anom(data_list, titles, file, climo, 1) # for JRA-55
 
 # climatology differences
 """ds_1 = pyg.open(path + "remapcon2_PRECTOTCORR_DJFM_climatology_2000to2020.nc") ###
@@ -78,3 +81,11 @@ path = "/local1/storage1/jml559/ssw-hydro/"
 fn = "ps_MERRA2_2000to2020_minus_1980to2020_precip_MRM_DJFM.pdf" ###
 pyl.savefig(path + fn) """
 
+# /local1/storage1/jml559/merra2/remapcon2_PRECTOTCORR_OctToMay_climatology_2000to2020.nc
+# PRECTOTCORR_CLIM
+
+# /local1/storage1/jml559/era5/remapcon2_tp_OctToMay_climatology_2000to2020.nc
+# TP_CLIM
+
+# /local1/storage1/jml559/jra55/tprat/remapcon2_TPRAT_GDS4_SFC_ave3h_OctToMay_climatology_2000to2020.nc
+# TP_CLIM

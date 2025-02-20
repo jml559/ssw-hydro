@@ -64,7 +64,9 @@ Total 52 events
 Revised indices (since climatology is from Oct 1940-May 1960, etc.)
 2:15 (normal) - 1:15 (index) - 14 events
 16:28 (normal) - 15:28 (index) - 13 events
+27.5
 29:39 (normal) - 28:39 (index) - 11 events
+38.5
 40:53 (normal) - 39:53 (index) - 14 events
 Total 52 events
 

@@ -61,12 +61,8 @@ def compute_OctToMay_climatology(tp, yrs):
     compute_OctToMay_climatology('tp', (start_year, start_year + 20))
     print(f"{start_year} to {start_year + 20} Oct-May climo is done") """
 
-
-
-
-
-
-
+"""compute_OctToMay_climatology('tp', (1980, 2020))
+print(f"1980 to 2020 Oct-May climo is done")"""
 
 # computes composite based on a fixed climatology
 def compute_composite(v,i1,i2,climo_fn):  
@@ -116,6 +112,16 @@ tp_comp_4 = compute_composite(ds.tp,2,15,path+"tp/tp_DJFM_climatology_1940to1960
 fn4 = path + "tp_DJFM_composite_1940to1960.nc"
 print(fn4)
 pyg.save(fn4, tp_comp_4)"""
+
+tp_comp_1 = compute_composite(ds.tp,1,53,path+"tp_OctToMay_climatology_1980to2020.nc")
+fn1 = path + "tp_OctToMay_composite_1940to2020_rel_1980to2020.nc"
+print(fn1)
+pyg.save(fn1, tp_comp_1)
+
+tp_comp_2 = compute_composite(ds.tp,28,53,path+"tp_OctToMay_climatology_1980to2020.nc")
+fn2 = path + "tp_OctToMay_composite_1980to2020_rel_1980to2020.nc"
+print(fn2)
+pyg.save(fn2, tp_comp_2)
 
 # linear interpolation/weighting of decadal moving average
 def compute_composite_v2(v,i1,i2,bef_fn,aft_fn):
@@ -225,8 +231,8 @@ compute_composite_v2(ds.tp,39,53,path+"before_SSWs_OctToMay_2000to2020.nc",
                     path+"after_SSWs_OctToMay_2000to2020.nc") """
 
 # includes event dimension (run separately)
-compute_composite_v2(ds.tp,1,53,path+"before_SSWs_OctToMay_eventlatlon_1940to2020.nc",
-                    path+"after_SSWs_OctToMay_eventlatlon_1940to2020.nc")
+"""compute_composite_v2(ds.tp,1,53,path+"before_SSWs_OctToMay_eventlatlon_1940to2020.nc",
+                    path+"after_SSWs_OctToMay_eventlatlon_1940to2020.nc") """
 
 
 

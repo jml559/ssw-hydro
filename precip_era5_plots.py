@@ -72,7 +72,7 @@ fn = "ps_ERA5_2000to2020_minus_1980to2020_precip_MRM_DJFM.pdf" ###
 pyl.savefig(path + fn) """
 
 # parameters - change as needed
-n_events = 52 ###
+n_events = 25 ###
 n_lat = 180
 n_lon = 360 # (180,360) if regridded
 N_resamples = 10000 

@@ -82,7 +82,7 @@ def compute_composite(v,i1,i2,climo_fn):
 
     vr = remove_leap(v)
     vrd = pyg.dailymean(vr).rename(vr.name)
-    vrd = vrd(l_month=(1,2,3,12)) # DJFM only
+    vrd = vrd(l_month=(10,11,12,1,2,3,4,5))
    
     va = vrd - vclim # va = anomaly
     print(va)
@@ -93,10 +93,15 @@ def compute_composite(v,i1,i2,climo_fn):
     print("vclim:")
     print(vclim)"""
 
-    """vcomp = va.composite(l_time = dates, evlen = 140, evoff = 40)
+    vcomp = va.composite(l_time = dates, evlen = 140, evoff = 40)
     prectotcorr_anom = vcomp.rename("prectotcorr_anom")
     prectotcorr_anom = prectotcorr_anom.transpose("time","event","lat","lon")
-    return prectotcorr_anom"""
+    return prectotcorr_anom
+
+comp_1 = compute_composite(ds.PRECTOTCORR,28,53,path+"PRECTOTCORR_OctToMay_climatology_1980to2020.nc")
+fn1 = path + "PRECTOTCORR_OctToMay_composite_1940to2020_rel_1980to2020.nc"
+print(fn1)
+pyg.save(fn1, comp_1)
 
 # linear interpolation/weighting of decadal moving average
 def compute_composite_v2(v,i1,i2,bef_fn,aft_fn):
@@ -186,9 +191,9 @@ compute_composite_v2(ds.PRECTOTCORR,39,53,
     path+"after_SSWs_OctToMay_2000to2020.nc") """
 
 # includes event dimension (run separately)
-compute_composite_v2(ds.PRECTOTCORR,28,53,
+"""compute_composite_v2(ds.PRECTOTCORR,28,53,
     path+"before_SSWs_OctToMay_eventlatlon_1980to2020.nc",
-    path+"after_SSWs_OctToMay_eventlatlon_1980to2020.nc") 
+    path+"after_SSWs_OctToMay_eventlatlon_1980to2020.nc") """
 
 
 

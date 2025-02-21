@@ -81,7 +81,7 @@ def compute_composite(v,i1,i2,climo_fn):
 
    vr = remove_leap(v)
    vrd = pyg.dailymean(vr).rename(vr.name)
-   vrd = vrd(l_month=(1,2,3,12)) # DJFM only
+   vrd = vrd(l_month=(10,11,12,1,2,3,4,5)) 
    
    va = vrd - vclim # va = anomaly
    """print("va:")
@@ -94,6 +94,7 @@ def compute_composite(v,i1,i2,climo_fn):
    vcomp = va.composite(l_time = dates, evlen = 140, evoff = 40)
    vcomp = vcomp(forecast_time1 = 3).squeeze()
    tp_anom = vcomp.rename("tp_anom")
+   tp_anom = tp_anom.transpose("time","event","g4_lat_2","g4_lon_3")
    return tp_anom 
 
 #tp_comp = compute_composite(ds.TPRAT_GDS4_SFC_ave3h) # don't need to subset v
@@ -111,6 +112,11 @@ tp_comp_3 = compute_composite(ds.TPRAT_GDS4_SFC_ave3h,15,28,path+"TPRAT_DJFM_cli
 fn3 = path + 'TPRAT_DJFM_composite_1960to1980.nc'
 print(fn3)
 pyg.save(fn3, tp_comp_3) """
+
+tp_comp_1 = compute_composite(ds.TPRAT_GDS4_SFC_ave3h,15,53,path+"TPRAT_GDS4_SFC_ave3h_OctToMay_climatology_1980to2020.nc")
+fn1 = path + "TPRAT_OctToMay_composite_1960to2020_rel_1980to2020.nc"
+print(fn1)
+pyg.save(fn1, tp_comp_1)
 
 # linear interpolation/weighting of decadal moving average
 def compute_composite_v2(v,i1,i2,bef_fn,aft_fn):
@@ -211,6 +217,6 @@ compute_composite_v2(ds.TPRAT_GDS4_SFC_ave3h,39,53,
     path+"after_SSWs_OctToMay_2000to2020.nc") """
 
 # includes event dimension (run separately)
-compute_composite_v2(ds.TPRAT_GDS4_SFC_ave3h,15,53,
+"""compute_composite_v2(ds.TPRAT_GDS4_SFC_ave3h,15,53,
     path+"before_SSWs_OctToMay_eventlatlon_1960to2020.nc",
-    path+"after_SSWs_OctToMay_eventlatlon_1960to2020.nc")
+    path+"after_SSWs_OctToMay_eventlatlon_1960to2020.nc") """

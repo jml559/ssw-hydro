@@ -28,7 +28,7 @@ def plot_anom(data_list, titles, fn, climo_fn, conv_factor):
     axes = []
     pyl.ioff()
     for data, title in zip(data_list, titles):
-        diff = conv_factor*data.mean("time") - climo_fn
+        diff = conv_factor * (data.mean("time") - climo_fn.mean("time"))
         map = dict(projection="NorthPolarStereo")
         ax = pyg.showvar(diff, map=map, **cm)
         ax.axes[0].set_extent([0,359,20,90], crs=ccrs.PlateCarree())
@@ -46,7 +46,7 @@ data_list = [m2_80to00.PRECTOTCORR_CLIM, m2_00to20.PRECTOTCORR_CLIM]
 file = "ps_MERRA2_20yr_precip_anoms.pdf"
 climo = pyg.open(path_m + "remapcon2_PRECTOTCORR_OctToMay_climatology_2000to2020.nc").PRECTOTCORR_CLIM
 titles = ["1980-2000","2000-2020"]
-plot_anom(data_list, titles, file, climo, 3600*24) # for MERRA-2
+plot_anom(data_list, titles, file, climo, 3600*24)  # for MERRA-2
 
 data_list = [e5_40to60.TP_CLIM, e5_60to80.TP_CLIM, e5_80to00.TP_CLIM, e5_00to20.TP_CLIM]
 file = "ps_ERA5_20yr_precip_anoms.pdf"

@@ -113,7 +113,7 @@ fn4 = path + "tp_DJFM_composite_1940to1960.nc"
 print(fn4)
 pyg.save(fn4, tp_comp_4)"""
 
-tp_comp_1 = compute_composite(ds.tp,1,53,path+"tp_OctToMay_climatology_1980to2020.nc")
+"""tp_comp_1 = compute_composite(ds.tp,1,53,path+"tp_OctToMay_climatology_1980to2020.nc")
 fn1 = path + "tp_OctToMay_composite_1940to2020_rel_1980to2020.nc"
 print(fn1)
 pyg.save(fn1, tp_comp_1)
@@ -121,7 +121,7 @@ pyg.save(fn1, tp_comp_1)
 tp_comp_2 = compute_composite(ds.tp,28,53,path+"tp_OctToMay_climatology_1980to2020.nc")
 fn2 = path + "tp_OctToMay_composite_1980to2020_rel_1980to2020.nc"
 print(fn2)
-pyg.save(fn2, tp_comp_2)
+pyg.save(fn2, tp_comp_2) """
 
 # linear interpolation/weighting of decadal moving average
 def compute_composite_v2(v,i1,i2,bef_fn,aft_fn):

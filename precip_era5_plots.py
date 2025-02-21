@@ -77,18 +77,18 @@ n_lat = 180
 n_lon = 360 # (180,360) if regridded
 N_resamples = 10000 
 
-#ds_comp = pyg.open(path + "tp_DJFM_composite_2000to2020.nc") ### change name as needed
+ds_comp = pyg.open("/local1/storage1/jml559/era5/remapcon2_tp_OctToMay_composite_1980to2020_rel_1980to2020.nc") ### change name as needed
 #print(ds_comp)
-ds_bef = pyg.open("/local1/storage1/jml559/era5/remapcon2_before_SSWs_OctToMay_eventlatlon_1940to2020.nc") 
-ds_aft = pyg.open("/local1/storage1/jml559/era5/remapcon2_after_SSWs_OctToMay_eventlatlon_1940to2020.nc") 
+"""ds_bef = pyg.open("/local1/storage1/jml559/era5/remapcon2_before_SSWs_OctToMay_eventlatlon_1940to2020.nc") 
+ds_aft = pyg.open("/local1/storage1/jml559/era5/remapcon2_after_SSWs_OctToMay_eventlatlon_1940to2020.nc") """
 
 prec_anom_before = np.zeros((n_events, n_lat, n_lon))
 prec_anom_after = np.zeros((n_events, n_lat, n_lon))
 
-"""prec_anom_before = ds_comp.tp_anom(time=(-40,0)).nanmean('time')[:]
-prec_anom_after = ds_comp.tp_anom(time=(0,61)).nanmean('time')[:] """
-prec_anom_before = ds_bef.prectotcorr_comp[:]
-prec_anom_after = ds_aft.prectotcorr_comp[:]
+prec_anom_before = ds_comp.tp_anom(time=(-40,0)).nanmean('time')[:]
+prec_anom_after = ds_comp.tp_anom(time=(0,61)).nanmean('time')[:] 
+"""prec_anom_before = ds_bef.prectotcorr_comp[:]
+prec_anom_after = ds_aft.prectotcorr_comp[:]"""
 
 mean_anom_r_bef = np.zeros((N_resamples, n_lat, n_lon)) # array of (N_resamples) mean values 
 mean_anom_r_aft = np.zeros((N_resamples, n_lat, n_lon))
@@ -122,10 +122,10 @@ for i in range(n_lat):
         p_aft_wet[i,j] = (mean_anom_r_aft[:,i,j]<0).sum() / N_resamples 
 
 # significance maps before SSWs
-#prectot_comp_before_ssw = ds_comp.tp_anom(time=(-40,0)).nanmean('time','event').load() #nanmean('time','event')
-prectot_comp_before_ssw = ds_bef.prectotcorr_comp.nanmean("event").load()
-sigmask_bef_dry = (1 - 0.5*pyg.Var((ds_bef.latitude,ds_bef.longitude),values=p_bef_dry)) * pyg.sign(prectot_comp_before_ssw)
-sigmask_bef_wet = (1 - 0.5*pyg.Var((ds_bef.latitude,ds_bef.longitude),values=p_bef_wet)) * pyg.sign(prectot_comp_before_ssw)
+prectot_comp_before_ssw = ds_comp.tp_anom(time=(-40,0)).nanmean('time','event').load() #nanmean('time','event')
+#prectot_comp_before_ssw = ds_bef.prectotcorr_comp.nanmean("event").load()
+sigmask_bef_dry = (1 - 0.5*pyg.Var((ds_comp.latitude,ds_comp.longitude),values=p_bef_dry)) * pyg.sign(prectot_comp_before_ssw)
+sigmask_bef_wet = (1 - 0.5*pyg.Var((ds_comp.latitude,ds_comp.longitude),values=p_bef_wet)) * pyg.sign(prectot_comp_before_ssw)
 #cm = pyg.clfdict(cdelt=12.5, nf=4, nl=0, ndiv=4, style='div', cmap=pyl.cm.BrBG, extend='both') 
 #cm = pyg.clfdict(cdelt=10, nf=4, nl=0, ndiv=3, style='div', cmap=pyl.cm.BrBG, extend='both') 
 cm = pyg.clfdict(cdelt=0.2, nf=2, nl=0, ndiv=6, style='seq', cmap=pyl.cm.BrBG, extend='both') 
@@ -149,16 +149,16 @@ ax1.axes[1].ax.set_title("mm/d", y=1.05, fontsize=12)
 #fn1 = "r2_ERA5_before_SSWs_1947to1959_rel_1947to1959clim.pdf" # change as needed
 #pyl.savefig(fn1) 
 
-fn1 = "ps_ERA5_before_SSWs_OctToMay_1940to2020.pdf" ### change as needed 
+fn1 = "ps_ERA5_before_SSWs_OctToMay_1980to2020_rel_1980to2020.pdf" ### change as needed 
 path2 = "/local1/storage1/jml559/ssw-hydro/regridded-plots/"
 #path2 = "/local1/storage1/jml559/ssw-hydro/"
 pyl.savefig(path2 + fn1) 
 
 # after SSWs
-#prectot_comp_after_ssw = ds_comp.tp_anom(time=(0,61)).nanmean('time','event').load()
-prectot_comp_after_ssw = ds_aft.prectotcorr_comp.nanmean("event").load() 
-sigmask_aft_dry = (1 - 0.5*pyg.Var((ds_aft.latitude,ds_aft.longitude),values=p_aft_dry)) * pyg.sign(prectot_comp_after_ssw)
-sigmask_aft_wet = (1 - 0.5*pyg.Var((ds_aft.latitude,ds_aft.longitude),values=p_aft_wet)) * pyg.sign(prectot_comp_after_ssw)
+prectot_comp_after_ssw = ds_comp.tp_anom(time=(0,61)).nanmean('time','event').load()
+#prectot_comp_after_ssw = ds_aft.prectotcorr_comp.nanmean("event").load() 
+sigmask_aft_dry = (1 - 0.5*pyg.Var((ds_comp.latitude,ds_comp.longitude),values=p_aft_dry)) * pyg.sign(prectot_comp_after_ssw)
+sigmask_aft_wet = (1 - 0.5*pyg.Var((ds_comp.latitude,ds_comp.longitude),values=p_aft_wet)) * pyg.sign(prectot_comp_after_ssw)
 #cm = pyg.clfdict(cdelt=20, nf=4, nl=0, ndiv=4, style='div', cmap=pyl.cm.BrBG, extend='both')
 #cm = pyg.clfdict(cdelt=15, nf=4, nl=0, ndiv=3, style='div', cmap=pyl.cm.BrBG, extend='both') 
 
@@ -178,6 +178,6 @@ pyl.ion()
 ax2.render()
 ax2.axes[1].ax.set_title("mm/d", y=1.05, fontsize=12) 
 
-fn2 = "ps_ERA5_after_SSWs_OctToMay_1940to2020.pdf" ### change as needed
+fn2 = "ps_ERA5_after_SSWs_OctToMay_1980to2020_rel_1980to2020.pdf" ### change as needed
 pyl.savefig(path2 + fn2) 
 

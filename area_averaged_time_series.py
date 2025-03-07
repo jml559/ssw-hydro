@@ -1,4 +1,5 @@
 ### plots time series of area-averaged precip anoms vs. event for all three reanalyses
+### regression analyses 
 
 import pygeode as pyg
 import cartopy.crs as ccrs
@@ -12,32 +13,32 @@ path_m = "/local1/storage1/jml559/merra2/"
 path_j = "/local1/storage1/jml559/jra55/tprat/"
 
 # composites relative to a running climatology
-""" era5_bef = pyg.open(path_e + "remapcon2_before_SSWs_OctToMay_eventlatlon_1940to2020.nc")
+era5_bef = pyg.open(path_e + "remapcon2_before_SSWs_OctToMay_eventlatlon_1940to2020.nc")
 era5_aft = pyg.open(path_e + "remapcon2_after_SSWs_OctToMay_eventlatlon_1940to2020.nc")
 merra2_bef = pyg.open(path_m + "remapcon2_before_SSWs_OctToMay_eventlatlon_1980to2020.nc")
 merra2_aft = pyg.open(path_m + "remapcon2_after_SSWs_OctToMay_eventlatlon_1980to2020.nc")
 jra55_bef = pyg.open(path_j + "remapcon2_before_SSWs_OctToMay_eventlatlon_1960to2020.nc")
-jra55_aft = pyg.open(path_j + "remapcon2_after_SSWs_OctToMay_eventlatlon_1960to2020.nc") """
+jra55_aft = pyg.open(path_j + "remapcon2_after_SSWs_OctToMay_eventlatlon_1960to2020.nc")
 
 # composites relative to a fixed climatology 
-era5_comp = pyg.open(path_e + "remapcon2_tp_OctToMay_composite_1940to2020_rel_1980to2020.nc")
+""" era5_comp = pyg.open(path_e + "remapcon2_tp_OctToMay_composite_1940to2020_rel_1980to2020.nc")
 merra2_comp = pyg.open(path_m + "remapcon2_PRECTOTCORR_OctToMay_composite_1940to2020_rel_1980to2020.nc")
-jra55_comp = pyg.open(path_j + "remapcon2_TPRAT_OctToMay_composite_1960to2020_rel_1980to2020.nc") 
+jra55_comp = pyg.open(path_j + "remapcon2_TPRAT_OctToMay_composite_1960to2020_rel_1980to2020.nc") """
 
 # figure out confidence interval things here 
 # plots time series of area-averaged precip anoms vs. event
 def plot_ts(lat1, lat2, lon1, lon2, region, path):
     # before SSWs (running climo)
-    """era5_bef_arr = era5_bef.prectotcorr_comp(lat=(lat1,lat2),lon=(lon1,lon2)).mean("latitude","longitude")[:]
+    era5_bef_arr = era5_bef.prectotcorr_comp(lat=(lat1,lat2),lon=(lon1,lon2)).mean("latitude","longitude")[:]
     merra2_bef_arr = merra2_bef.prectotcorr_comp(lat=(lat1,lat2),lon=(lon1,lon2)).mean("latitude","longitude")[:]
     jra55_bef_arr = jra55_bef.tprat_comp(lat=(lat1,lat2),lon=(lon1,lon2)).mean("latitude","longitude")[:]
 
     # after SSWs (running climo)
     era5_aft_arr = era5_aft.prectotcorr_comp(lat=(lat1,lat2),lon=(lon1,lon2)).mean("latitude","longitude")[:]
     merra2_aft_arr = merra2_aft.prectotcorr_comp(lat=(lat1,lat2),lon=(lon1,lon2)).mean("latitude","longitude")[:]
-    jra55_aft_arr = jra55_aft.tprat_comp(lat=(lat1,lat2),lon=(lon1,lon2)).mean("latitude","longitude")[:] """
+    jra55_aft_arr = jra55_aft.tprat_comp(lat=(lat1,lat2),lon=(lon1,lon2)).mean("latitude","longitude")[:] 
 
-    # before SSWs (fixed climo)
+    """# before SSWs (fixed climo)
     era5_bef_arr = era5_comp.tp_anom(lat=(lat1,lat2),lon=(lon1,lon2),
         time=(-40,0)).mean("latitude","longitude").nanmean('time')[:]
     merra2_bef_arr = merra2_comp.prectotcorr_anom(lat=(lat1,lat2),lon=(lon1,lon2),
@@ -51,7 +52,7 @@ def plot_ts(lat1, lat2, lon1, lon2, region, path):
     merra2_aft_arr = merra2_comp.prectotcorr_anom(lat=(lat1,lat2),lon=(lon1,lon2),
         time=(0,61)).mean("latitude","longitude").nanmean('time')[:]
     jra55_aft_arr = jra55_comp.tp_anom(lat=(lat1,lat2),lon=(lon1,lon2),
-        time=(0,61)).mean("latitude","longitude").nanmean('time')[:]
+        time=(0,61)).mean("latitude","longitude").nanmean('time')[:]"""
 
     # pad time series with leading NaNs 
     def pad_ts(series, max_len=52):
@@ -70,12 +71,12 @@ def plot_ts(lat1, lat2, lon1, lon2, region, path):
     x_axis = np.arange(1,53)
 
     # resample ERA-5 data
-    resample_bef_all = np.zeros(())
+    """resample_bef_all = np.zeros(())
     resample_aft_all = 
     resample_bef_1980 = 
     resample_aft_1980 = 
     resample_bef_2000 = 
-    resample_aft_2000 = 
+    resample_aft_2000 =  """
 
     # colors from https://s-rip.github.io/report/colourdefinition.html 
     ax[0].plot(x_axis, era5_bef_arr, label='ERA-5', color="#5F98C6") 
@@ -111,7 +112,7 @@ def plot_ts(lat1, lat2, lon1, lon2, region, path):
         ax[i].set_xlabel('Event')
         ax[i].set_ylabel('Area-averaged anomaly (mm/d)')
         ax[i].set_ylim(-4, 4)
-        ax[i].set_title('After SSWs', fontsize=14)
+        #ax[i].set_title('After SSWs', fontsize=14)
         ax[i].text(13, -3.8, "1960", rotation='vertical', fontweight="bold")
         ax[i].text(26, -3.8, "1980", rotation='vertical', fontweight="bold")
         ax[i].text(37, -3.8, "2000", rotation='vertical', fontweight="bold")
@@ -131,25 +132,21 @@ plot_ts(45, 55, 225, 238, "Pac NW (running climo)",
     "/local1/storage1/jml559/ssw-hydro/PacNW_runningclimo_ts.pdf") """
 
 # fixed climo
-plot_ts(36, 44, 350, 359, "Iberia (relative to 1980-2020 climatology)", 
+""" plot_ts(36, 44, 350, 359, "Iberia (relative to 1980-2020 climatology)", 
     "/local1/storage1/jml559/ssw-hydro/iberia_rel1980to2020_ts.pdf")
 plot_ts(55, 70, 4, 20, "Scandinavia (relative to 1980-2020 climatology)",
     "/local1/storage1/jml559/ssw-hydro/scandinavia_rel1980to2020_ts.pdf")
 plot_ts(45, 55, 225, 238, "Pac NW (relative to 1980-2020 climatology)",
-    "/local1/storage1/jml559/ssw-hydro/PacNW_rel1980to2020_ts.pdf") 
+    "/local1/storage1/jml559/ssw-hydro/PacNW_rel1980to2020_ts.pdf") """
 
-# plots scatterplot of ENSO index vs. area-averaged precip anom 
-"""def enso_vs_prec_anom(lat1, lat2, lon1, lon2, region, path):
-    era5_bef_arr = era5_bef.prectotcorr_comp(lat=(lat1,lat2),lon=(lon1,lon2)).mean("latitude","longitude")[:]
-    era5_aft_arr = era5_aft.prectotcorr_comp(lat=(lat1,lat2),lon=(lon1,lon2)).mean("latitude","longitude")[:]
 
-    path_sst = "/local1/storage1/jml559/era5/sst/"
-    sst_files = [pyg.open(f"{path_sst}sst_composite_{a}to{}.nc")]
 
-    e5_bef = [pyg.open(f"{path_e}remapcon2_before_SSWs_OctToMay_{a}to{a+20}.nc").prectotcorr_comp 
-            for a in np.arange(1940,2001,20)]
+    
 
-    path+"sst_composite_1940to1959.nc"
-    ninosst_bef_arr 
-    ninosst_aft_arr """
+
+
+
+
+
+   
 

@@ -91,30 +91,82 @@ def index_vs_prec_anom(lat1, lat2, lon1, lon2, index_bef, index_aft, index_str, 
     plt.show()
     pyl.savefig(path)
 
-index_vs_prec_anom(36, 44, 350, 359, index_data.NAO_N40N1, index_data.NAO_P0P60,
+"""index_vs_prec_anom(36, 44, 350, 359, index_data.NAO_N40N1, index_data.NAO_P0P60,
     "NAO", "Iberia", "/local1/storage1/jml559/ssw-hydro/NAO_iberia_regr.pdf")
-index_vs_prec_anom(36, 44, 350, 359, index_data.Nino34SST_N40N1, index_data.Nino34SST_N40N1,
+index_vs_prec_anom(36, 44, 350, 359, index_data.Nino34SST_N40N1, index_data.Nino34SST_P0P60,
     "Nino3.4 SST anomaly", "Iberia", "/local1/storage1/jml559/ssw-hydro/Nino34SST_iberia_regr.pdf")
-index_vs_prec_anom(36, 44, 350, 359, index_data.NPacSST_N40N1, index_data.NPacSST_N40N1,
+index_vs_prec_anom(36, 44, 350, 359, index_data.NPacSST_N40N1, index_data.NPacSST_P0P60,
     "N Pac SST anomaly", "Iberia", "/local1/storage1/jml559/ssw-hydro/NPacSST_iberia_regr.pdf")
 
 index_vs_prec_anom(55, 70, 4, 20, index_data.NAO_N40N1, index_data.NAO_P0P60,
     "NAO", "Scandinavia", "/local1/storage1/jml559/ssw-hydro/NAO_scandinavia_regr.pdf")
-index_vs_prec_anom(55, 70, 4, 20, index_data.Nino34SST_N40N1, index_data.Nino34SST_N40N1,
+index_vs_prec_anom(55, 70, 4, 20, index_data.Nino34SST_N40N1, index_data.Nino34SST_P0P60,
     "Nino3.4 SST anomaly", "Scandinavia", "/local1/storage1/jml559/ssw-hydro/Nino34SST_scandinavia_regr.pdf")
-index_vs_prec_anom(55, 70, 4, 20, index_data.NPacSST_N40N1, index_data.NPacSST_N40N1,
+index_vs_prec_anom(55, 70, 4, 20, index_data.NPacSST_N40N1, index_data.NPacSST_P0P60,
     "N Pac SST anomaly", "Scandinavia", "/local1/storage1/jml559/ssw-hydro/NPacSST_scandinavia_regr.pdf")
 
 index_vs_prec_anom(45, 55, 225, 238, index_data.NAO_N40N1, index_data.NAO_P0P60,
     "NAO", "Pac NW", "/local1/storage1/jml559/ssw-hydro/NAO_PacNW_regr.pdf")
-index_vs_prec_anom(45, 55, 225, 238, index_data.Nino34SST_N40N1, index_data.Nino34SST_N40N1,
+index_vs_prec_anom(45, 55, 225, 238, index_data.Nino34SST_N40N1, index_data.Nino34SST_P0P60,
     "Nino3.4 SST anomaly", "Pac NW", "/local1/storage1/jml559/ssw-hydro/Nino34SST_PacNW_regr.pdf")
-index_vs_prec_anom(45, 55, 225, 238, index_data.NPacSST_N40N1, index_data.NPacSST_N40N1,
-    "N Pac SST anomaly", "Pac NW", "/local1/storage1/jml559/ssw-hydro/NPacSST_PacNW_regr.pdf")
+index_vs_prec_anom(45, 55, 225, 238, index_data.NPacSST_N40N1, index_data.NPacSST_P0P60,
+    "N Pac SST anomaly", "Pac NW", "/local1/storage1/jml559/ssw-hydro/NPacSST_PacNW_regr.pdf")"""
+
+# computes the composite mean of the events with the 20 highest and lowest SSTs or NAO
+# (approximate terciles)
+def plot_tercile_comp(index_bef, index_aft, index_str, fn):
+    # get index_bef and index_aft variables (must be specified in function call)
+    index_bef_arr = index_bef[:]
+    index_aft_arr = index_aft[:]
+
+    # gather indices of the top and bottom 20 events 
+    t20_bef_indices = np.argsort(index_bef_arr)[-20:][::-1] 
+    b20_bef_indices = np.argsort(index_bef_arr)[:20] 
+    t20_aft_indices = np.argsort(index_aft_arr)[-20:][::-1] 
+    b20_aft_indices = np.argsort(index_aft_arr)[:20]
+
+    # compute composite based on subset of events using l_event 
+    t20_bef_map = era5_bef.prectotcorr_comp(l_event=t20_bef_indices).mean("event")
+    b20_bef_map = era5_bef.prectotcorr_comp(l_event=b20_bef_indices).mean("event")
+    t20_aft_map = era5_aft.prectotcorr_comp(l_event=t20_aft_indices).mean("event")
+    b20_aft_map = era5_aft.prectotcorr_comp(l_event=b20_aft_indices).mean("event")
+
+    # plotting
+    #fig, axes = plt.subplots(2, 2) # figsize=(a,b)
+    axes = []
+    pyl.ioff()
+    map = dict(projection = "NorthPolarStereo")
+    cm = pyg.clfdict(cdelt=0.2, nf=2, nl=0, ndiv=6, style='seq', cmap=pyl.cm.BrBG, extend='both') 
+
+    ax1 = pyg.showvar(1000*24*b20_bef_map, map=map, **cm) 
+    ax1.axes[0].set_extent([0,359,20,90],crs=ccrs.PlateCarree()) 
+    ax1.axes[0].set_title(f"Before SSWs, bottom 20 {index_str}")
+    axes.append(ax1)
+
+    ax2 = pyg.showvar(1000*24*t20_bef_map, map=map, **cm) 
+    ax2.axes[0].set_extent([0,359,20,90],crs=ccrs.PlateCarree()) 
+    ax2.axes[0].set_title(f"Before SSWs, top 20 {index_str}")
+    axes.append(ax2)
+
+    ax3 = pyg.showvar(1000*24*b20_aft_map, map=map, **cm)
+    ax3.axes[0].set_extent([0,359,20,90],crs=ccrs.PlateCarree()) 
+    ax3.axes[0].set_title(f"After SSWs, bottom 20 {index_str}")
+    axes.append(ax3)
+
+    ax4 = pyg.showvar(1000*24*t20_aft_map, map=map, **cm)
+    ax4.axes[0].set_extent([0,359,20,90],crs=ccrs.PlateCarree())
+    ax4.axes[0].set_title(f"After SSWs, top 20 {index_str}")
+    axes.append(ax4)
+
+    plt.suptitle(f"Precip anomalies before and after SSWs versus {index_str}", fontsize=18, fontweight="bold")
+    all_axes = pyg.plot.grid([axes])
+    pyl.ion()
+    all_axes.render()
+    pyl.savefig("/local1/storage1/jml559/ssw-hydro/regridded-plots/" + fn)
+
+plot_tercile_comp(index_data.Nino34SST_N40N1, index_data.Nino34SST_P0P60, 
+    "Nino3.4 SST anomaly", "Nino34SST_tercile_composites.pdf")
 
 
 
-# capture these first
-# then mark 1960-1980 (green) - 14:27
-# 1980-2000 (orange) - 27:38 
-# legend 
+

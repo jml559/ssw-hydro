@@ -25,7 +25,6 @@ jra55_aft = pyg.open(path_j + "remapcon2_after_SSWs_OctToMay_eventlatlon_1960to2
 merra2_comp = pyg.open(path_m + "remapcon2_PRECTOTCORR_OctToMay_composite_1940to2020_rel_1980to2020.nc")
 jra55_comp = pyg.open(path_j + "remapcon2_TPRAT_OctToMay_composite_1960to2020_rel_1980to2020.nc") """
 
-# figure out confidence interval things here 
 # plots time series of area-averaged precip anoms vs. event
 def plot_ts(lat1, lat2, lon1, lon2, region, path):
     # before SSWs (running climo)
@@ -138,6 +137,7 @@ plot_ts(55, 70, 4, 20, "Scandinavia (relative to 1980-2020 climatology)",
     "/local1/storage1/jml559/ssw-hydro/scandinavia_rel1980to2020_ts.pdf")
 plot_ts(45, 55, 225, 238, "Pac NW (relative to 1980-2020 climatology)",
     "/local1/storage1/jml559/ssw-hydro/PacNW_rel1980to2020_ts.pdf") """
+
 
 
 

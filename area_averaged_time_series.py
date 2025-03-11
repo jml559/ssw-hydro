@@ -11,6 +11,7 @@ import random
 path_e = "/local1/storage1/jml559/era5/"
 path_m = "/local1/storage1/jml559/merra2/"
 path_j = "/local1/storage1/jml559/jra55/tprat/"
+path_o = "/local1/storage1/jml559/obs/"
 
 # composites relative to a running climatology
 era5_bef = pyg.open(path_e + "remapcon2_before_SSWs_OctToMay_eventlatlon_1940to2020.nc")
@@ -20,22 +21,32 @@ merra2_aft = pyg.open(path_m + "remapcon2_after_SSWs_OctToMay_eventlatlon_1980to
 jra55_bef = pyg.open(path_j + "remapcon2_before_SSWs_OctToMay_eventlatlon_1960to2020.nc")
 jra55_aft = pyg.open(path_j + "remapcon2_after_SSWs_OctToMay_eventlatlon_1960to2020.nc")
 
+# station data relative to a running climatology
+gsn = pyg.open(path_o + "gsnPRCP_52SSWs_Iberia_Scandinavia_PacNW_indices.nc")
+
+# satellite data (based on a different climatology?)
+imerg = pyg.open(path_o + "imergPRCP_14SSWs_2000-2020_Iberia_Scandinavia_PacNW_indices.nc")
+
 # composites relative to a fixed climatology 
 """ era5_comp = pyg.open(path_e + "remapcon2_tp_OctToMay_composite_1940to2020_rel_1980to2020.nc")
 merra2_comp = pyg.open(path_m + "remapcon2_PRECTOTCORR_OctToMay_composite_1940to2020_rel_1980to2020.nc")
 jra55_comp = pyg.open(path_j + "remapcon2_TPRAT_OctToMay_composite_1960to2020_rel_1980to2020.nc") """
 
 # plots time series of area-averaged precip anoms vs. event
-def plot_ts(lat1, lat2, lon1, lon2, region, path):
+def plot_ts(lat1, lat2, lon1, lon2, region, gsn_bef, gsn_aft, imerg_bef, imerg_aft, path):
     # before SSWs (running climo)
     era5_bef_arr = era5_bef.prectotcorr_comp(lat=(lat1,lat2),lon=(lon1,lon2)).mean("latitude","longitude")[:]
     merra2_bef_arr = merra2_bef.prectotcorr_comp(lat=(lat1,lat2),lon=(lon1,lon2)).mean("latitude","longitude")[:]
     jra55_bef_arr = jra55_bef.tprat_comp(lat=(lat1,lat2),lon=(lon1,lon2)).mean("latitude","longitude")[:]
+    gsn_bef_arr = gsn_bef[:] # variable name of gsn_bef
+    imerg_bef_arr = imerg_bef[:]
 
     # after SSWs (running climo)
     era5_aft_arr = era5_aft.prectotcorr_comp(lat=(lat1,lat2),lon=(lon1,lon2)).mean("latitude","longitude")[:]
     merra2_aft_arr = merra2_aft.prectotcorr_comp(lat=(lat1,lat2),lon=(lon1,lon2)).mean("latitude","longitude")[:]
     jra55_aft_arr = jra55_aft.tprat_comp(lat=(lat1,lat2),lon=(lon1,lon2)).mean("latitude","longitude")[:] 
+    gsn_aft_arr = gsn_aft[:]
+    imerg_aft_arr = imerg_aft[:]
 
     """# before SSWs (fixed climo)
     era5_bef_arr = era5_comp.tp_anom(lat=(lat1,lat2),lon=(lon1,lon2),
@@ -62,9 +73,14 @@ def plot_ts(lat1, lat2, lon1, lon2, region, path):
     era5_bef_arr = 1000*24*pad_ts(era5_bef_arr)
     merra2_bef_arr = 3600*24*pad_ts(merra2_bef_arr)
     jra55_bef_arr = pad_ts(jra55_bef_arr)
+    gsn_bef_arr = pad_ts(gsn_bef_arr)
+    imerg_bef_arr = pad_ts(imerg_bef_arr)
+
     era5_aft_arr = 1000*24*pad_ts(era5_aft_arr)
     merra2_aft_arr = 3600*24*pad_ts(merra2_aft_arr)
     jra55_aft_arr = pad_ts(jra55_aft_arr)
+    gsn_aft_arr = pad_ts(gsn_aft_arr)
+    imerg_aft_arr = pad_ts(imerg_aft_arr)
 
     fig, ax = plt.subplots(1, 2, figsize=(10, 4.5), sharey=True)
     x_axis = np.arange(1,53)
@@ -81,6 +97,8 @@ def plot_ts(lat1, lat2, lon1, lon2, region, path):
     ax[0].plot(x_axis, era5_bef_arr, label='ERA-5', color="#5F98C6") 
     ax[0].plot(x_axis, merra2_bef_arr, label='MERRA-2', color="#E21F26")
     ax[0].plot(x_axis, jra55_bef_arr, label='JRA-55', color="#723B7A")
+    ax[0].plot(x_axis, gsn_bef_arr, label='GSN', color="#777777")
+    ax[0].plot(x_axis, imerg_bef_arr, label='IMERG', color="#000000")
     #ax[0].axhline(-1, color="#CB9A4C", linestyle='--', linewidth=1)
     #ax[0].axhline(1, color="#52ACA1", linestyle='--', linewidth=1)
     """ax[0].axhline(0, color='black', linestyle='--', linewidth=1)
@@ -100,6 +118,8 @@ def plot_ts(lat1, lat2, lon1, lon2, region, path):
     ax[1].plot(x_axis, era5_aft_arr, label='ERA-5', color="#5F98C6") 
     ax[1].plot(x_axis, merra2_aft_arr, label='MERRA-2', color="#E21F26")
     ax[1].plot(x_axis, jra55_aft_arr, label='JRA-55', color="#723B7A")
+    ax[1].plot(x_axis, gsn_aft_arr, label='GSN', color="#777777")
+    ax[1].plot(x_axis, imerg_aft_arr, label='IMERG', color="#000000")
     #ax[1].axhline(-1, color="#CB9A4C", linestyle='--', linewidth=1)
     #ax[1].axhline(1, color="#52ACA1", linestyle='--', linewidth=1)
     for i in range(2):
@@ -123,12 +143,15 @@ def plot_ts(lat1, lat2, lon1, lon2, region, path):
     pyl.savefig(path)
 
 # running climo
-""" plot_ts(36, 44, 350, 359, "Iberia (running climo)", 
+plot_ts(36, 44, 350, 359, "Iberia (running climo)", 
+    gsn.Iberia_N40N1, gsn.Iberia_P0P60, imerg.Iberia_N40N1, imerg.Iberia_P0P60,
     "/local1/storage1/jml559/ssw-hydro/iberia_runningclimo_ts.pdf")
 plot_ts(55, 70, 4, 20, "Scandinavia (running climo)",
+    gsn.Scandinavia_N40N1, gsn.Scandinavia_P0P60, imerg.Scandinavia_N40N1, imerg.Scandinavia_P0P60,
     "/local1/storage1/jml559/ssw-hydro/scandinavia_runningclimo_ts.pdf")
 plot_ts(45, 55, 225, 238, "Pac NW (running climo)",
-    "/local1/storage1/jml559/ssw-hydro/PacNW_runningclimo_ts.pdf") """
+    gsn.PacNW_N40N1, gsn.PacNW_P0P60, imerg.PacNW_N40N1, imerg.PacNW_P0P60,
+    "/local1/storage1/jml559/ssw-hydro/PacNW_runningclimo_ts.pdf")
 
 # fixed climo
 """ plot_ts(36, 44, 350, 359, "Iberia (relative to 1980-2020 climatology)", 
